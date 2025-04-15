@@ -1,0 +1,15 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 20px;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+.visibility-icon,
+.delete-icon {
+  color: rgb(8, 8, 171);
+}

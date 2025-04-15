@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayout="row">
+        <span>{{ dialogData.action }} Task</span>
+        <span class="spacer"></span>
+        <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="taskForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="taskName" required>
+            <mat-error *ngIf="taskForm.controls.taskName.touched && taskForm.controls.taskName.invalid">
+                <span *ngIf="taskForm.controls.taskName.errors.required">Name is mandatory</span>
+                <span *ngIf="taskForm.controls.taskName.errors.pattern">Name is invalid</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Invites</mat-label>
+            <input matInput formControlName="invited" type="number" required>
+            <mat-error *ngIf="taskForm.controls.invited.touched && taskForm.controls.invited.invalid">
+                <span *ngIf="taskForm.controls.invited.errors.required">This field is mandatory</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput formControlName="date" [matDatepicker]="picker" required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="taskForm.controls.date.touched && taskForm.controls.date.invalid">
+                <span *ngIf="taskForm.controls.date.errors.required">Date is mandatory</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                <mat-option *ngFor="let status of statuses" [value]="status.name">
+                    {{ status.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()"
+        [disabled]="!(taskForm.valid && taskForm.dirty)">
+        <mat-icon>save</mat-icon> {{ action }}
+    </button>
+    <button mat-raised-button color="warn" mat-dialog-close>
+        <mat-icon>cancel</mat-icon>Close
+    </button>
+</mat-dialog-actions>

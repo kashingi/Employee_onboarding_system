@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "./theme-colors" as theme;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$my-theme: mat.define-theme(
+  (
+    color: (
+      primary: theme.$primary-palette,
+      tertiary: theme.$tertiary-palette,
+    ),
+  )
+);
+
+:root {
+  @include mat.theme(
+    (
+      color: theme.$primary-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include mat.all-component-themes($my-theme);
+  @include mat.typography-hierarchy($my-theme);
+
+  @include mat.button-overrides(
+    (
+      protected-container-color: mat.get-theme-color($my-theme, primary, 50),
+      protected-label-text-color: white,
+      protected-container-shape: 8px,
+    )
+  );
+}
+
+.mat-mdc-snack-bar-container.snackbar-success {
+  --mat-snack-bar-button-color: #fff;
+  --mdc-snackbar-container-color: green;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+.mat-mdc-snack-bar-container.snackbar-danger {
+  --mat-snack-bar-button-color: #fff;
+  --mdc-snackbar-container-color: red;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+.mat-mdc-snack-bar-container.snackbar-warning {
+  --mat-snack-bar-button-color: #fff;
+  --mdc-snackbar-container-color: #cf642a;
+  --mdc-snackbar-supporting-text-color: #fff;
+}

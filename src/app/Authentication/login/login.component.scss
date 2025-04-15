@@ -1,0 +1,44 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.left-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-image: url(equity-bank-new-logo.png);
+  background-size: cover;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  position: relative;
+}
+
+.right-column {
+  display: flex;
+  // align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+  flex: 1;
+  h1 {
+    text-align: center;
+  }
+  h4 {
+    text-align: center;
+  }
+}
+.form-details {
+  margin-top: 15%;
+}
+mat-form-field {
+  width: 100%;
+}
+.login-details a {
+  float: right;
+  text-decoration: none;
+}

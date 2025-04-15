@@ -1,0 +1,16 @@
+.seidebar-items {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  li {
+    list-style: none;
+    margin-top: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  mat-icon {
+    color: rgb(8, 8, 171);
+  }
+}

@@ -1,0 +1,59 @@
+<mat-card>
+    <div class="toolbar">
+        <b><span>Manage Users</span></b>
+        <span class="spacer"></span>
+        <button mat-raised-button (click)="handleAddAction()">
+            <mat-icon>add_circle</mat-icon> User
+        </button>
+    </div>
+</mat-card>
+
+<hr />
+<mat-card>
+    <mat-form-field appearance="fill">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyfilter($event)" #input />
+    </mat-form-field>
+</mat-card>
+<hr />
+<div class="responsive-table">
+    <table mat-table [dataSource]="dataSource" class="mat-cell">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Role</th>
+            <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+
+            <td mat-cell *matCellDef="let element" class="action-link">
+                <button mat-icon-button (click)="handleEditAction(element)" class="visibility-icon">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button class="delete-icon" (click)="handleDeleteAction(element)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <!-- Add your paginator here -->
+    <mat-paginator [pageSizeOptions]="[2, 5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

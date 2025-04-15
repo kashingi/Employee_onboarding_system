@@ -1,0 +1,27 @@
+<div class="main-details">
+    <!-- Header -->
+    <div class="header-layout">
+        <mat-toolbar color="primary" class="toolbar">
+            <button mat-icon-button (click)="collapsed.set(!collapsed())">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="title">Dashboard</span>
+            <div class="header-right" style="font-size: 15px !important;">
+                <app-header></app-header>
+            </div>
+        </mat-toolbar>
+    </div>
+
+    <!-- Sidebar & Main Content -->
+    <mat-sidenav-container class="main-layout">
+        <!-- Sidebar -->
+        <mat-sidenav class="sidebar-content" mode="side" opened [style.width]="sidenavWidth()">
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+
+        <!-- Main Content -->
+        <mat-sidenav-content class="main-content" [style.margin-left]="sidenavWidth()">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
