@@ -1,13 +1,7 @@
 <div class="seidebar-items">
-    <!-- <ul>
-        <li><a routerLink="/admin/home/dashboard" routerLinkActive="active"><mat-icon>home</mat-icon>Home</a></li>
-        <li><a routerLink="/admin/home/users"><mat-icon>person</mat-icon> Users</a></li>
-        <li><a routerLink="/admin/home/tasks"><mat-icon>event</mat-icon> Tasks</a></li>
-        <li><a routerLink="/admin/home/resources"><mat-icon>list</mat-icon> Resources</a></li>
-    </ul> -->
-
+   
     <mat-nav-list>
-        <a mat-list-item *ngFor="let item of menuItems()" color="primary" [routerLink]="item.route" routerLinkActive="active">
+        <a mat-list-item *ngFor="let item of menuItems()" color="primary" [routerLink]="item.route">
             <mat-icon matListItemIcon> {{item.icon}} </mat-icon>
             <span matListItemTitle> {{item.label}} </span>
         </a>

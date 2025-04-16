@@ -15,6 +15,11 @@ export class GolobalConstants{
 
     public static contactNumberRegex:string = "^[e0-9]{10,10}$";
 
+    public static idNumber: string = "^[1-9][0-9]{7}$";
+
+    public static addressRegex: string = "/^P\.O Box \d{1,5} - \d{5}, [A-Za-z\s]+$/";
+
+
     public static passwordRegex: string = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
 
     //Variable

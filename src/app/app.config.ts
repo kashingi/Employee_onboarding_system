@@ -10,7 +10,7 @@ import {
   BrowserModule,
 } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { MatStepperModule } from '@angular/material/stepper';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, SPINNER } from 'ngx-ui-loader';
 
 
@@ -37,7 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideClientHydration(withEventReplay()),
     provideNativeDateAdapter(),
-    //importProvidersFrom(NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)),
-    importProvidersFrom(NgxUiLoaderModule.forRoot(ngxUiLoaderConfig))
+    importProvidersFrom(NgxUiLoaderModule.forRoot(ngxUiLoaderConfig), MatStepperModule)
   ],
 };

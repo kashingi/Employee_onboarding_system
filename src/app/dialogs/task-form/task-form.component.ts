@@ -55,7 +55,7 @@ export class TaskFormComponent implements OnInit {
     private userService: UserService,
     public dialogRef: MatDialogRef<TaskFormComponent>,
     private snackbar: SnackbarService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {

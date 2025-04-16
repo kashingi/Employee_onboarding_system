@@ -32,6 +32,39 @@ $my-theme: mat.define-theme(
       protected-container-shape: 8px,
     )
   );
+  @include mat.stepper-overrides((
+    header-hover-state-layer-color: transparent,
+    header-focus-state-layer-color: transparent,
+  ));
+
+  @include mat.dialog-overrides((
+    container-shape: 0.5rem,
+    container-max-width: 840px,
+  ));
+
+  @include mat.form-field-overrides((
+    filled-container-color: transparent,
+  ));
+
+  @include mat.select-overrides((
+    panel-background-color: #ffffff,
+  ));
+
+  @include mat.card-overrides((
+    elevated-container-color: white,
+  ));
+
+  @include mat.list-overrides((
+    list-item-focus-state-layer-color: transparent,
+    list-item-hover-state-layer-color: transparent,
+    active-indicator-shape: 0.5rem,
+    
+  ));
+
+  @include mat.datepicker-overrides((
+    calendar-container-shape: 0.5rem,
+    calendar-container-background-color: white
+  ));
 }
 
 .mat-mdc-snack-bar-container.snackbar-success {

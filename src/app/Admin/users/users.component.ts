@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit {
     dialogConfig.data = {
       action: 'Add',
     };
-    dialogConfig.width = '850px';
+    dialogConfig.width = '840px';
     dialogConfig.enterAnimationDuration = '300ms';
     const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
     this.router.events.subscribe(() => {

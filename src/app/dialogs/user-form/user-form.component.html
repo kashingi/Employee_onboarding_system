@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row fxLayout="row">
-        <span>{{ dialogData.action }} User</span>
+        <span>{{ dialogData.action }} Employee</span>
         <span class="spacer"></span>
         <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
             <mat-icon>close</mat-icon>
@@ -9,42 +9,227 @@
 </mat-toolbar>
 
 <mat-dialog-content class="mat-typography">
-    <form [formGroup]="userForm">
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" required>
-            <mat-error *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
-                <span *ngIf="userForm.controls.name.errors.required">Name is mandatory</span>
-                <span *ngIf="userForm.controls.name.errors.pattern">Name is invalid</span>
-            </mat-error>
-        </mat-form-field>
-            
-        <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required>
-            <mat-error *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
-                <span *ngIf="userForm.controls.email.errors.required">Email is mandatory</span>
-                <span *ngIf="userForm.controls.email.errors.pattern">Email is invalid</span>
-            </mat-error>
-        </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Role</mat-label>
-            <mat-select formControlName="role">
-                <mat-option *ngFor="let role of roles" [value]="role.name">
-                    {{ role.name }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-stepper class="demo-stepper" #stepper>
+        <mat-step [stepControl]="userForm" label="Personal Details" state="user">
+            <form [formGroup]="userForm">
+                <mat-form-field appearance="fill">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput formControlName="name" required>
+                    <mat-error *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
+                        <span *ngIf="userForm.controls.name.errors.required">Name is mandatory</span>
+                        <span *ngIf="userForm.controls.name.errors.pattern">Name is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
+                        <span *ngIf="userForm.controls.email.errors.required">Email is mandatory</span>
+                        <span *ngIf="userForm.controls.email.errors.pattern">Email is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phoneNumber" required>
+                    <mat-error *ngIf="userForm.controls.phoneNumber.touched && userForm.controls.phoneNumber.invalid">
+                        <span *ngIf="userForm.controls.phoneNumber.errors.required">Phone number is mandatory</span>
+                        <span *ngIf="userForm.controls.phoneNumber.errors.pattern">Email is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Id Number</mat-label>
+                    <input matInput formControlName="idNumber" required>
+                    <mat-error *ngIf="userForm.controls.idNumber.touched && userForm.controls.idNumber.invalid">
+                        <span *ngIf="userForm.controls.idNumber.errors.required">Id number is mandatory</span>
+                        <span *ngIf="userForm.controls.idNumber.errors.pattern">Id number is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Permanent Address</mat-label>
+                    <input matInput formControlName="address" required>
+                    <mat-error *ngIf="userForm.controls.address.touched && userForm.controls.address.invalid">
+                        <span *ngIf="userForm.controls.address.errors.required">Address is mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="userForm" label="Academic Details" state="school">
+            <form [formGroup]="userForm">
+                <mat-form-field appearance="fill">
+                    <mat-label>Education Level</mat-label>
+                    <mat-select formControlName="educationLevel">
+                        <mat-option *ngFor="let level of educationLevels" [value]="level.name">
+                            {{ level.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="userForm.controls.educationLevel.touched && userForm.controls.educationLevel.invalid">
+                        <span *ngIf="userForm.controls.educationLevel.errors.required">Education Level is
+                            mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Institution Name</mat-label>
+                    <input matInput formControlName="universityName" required>
+                    <mat-error
+                        *ngIf="userForm.controls.universityName.touched && userForm.controls.universityName.invalid">
+                        <span *ngIf="userForm.controls.universityName.errors.required">Institution is mandatory</span>
+                        <span *ngIf="userForm.controls.universityName.errors.pattern">Institution is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Course Name</mat-label>
+                    <input matInput formControlName="courseName" required>
+                    <mat-error *ngIf="userForm.controls.courseName.touched && userForm.controls.courseName.invalid">
+                        <span *ngIf="userForm.controls.courseName.errors.required">Course is mandatory</span>
+                        <span *ngIf="userForm.controls.courseName.errors.pattern">Course is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Select Class</mat-label>
+                    <mat-select formControlName="courseClass">
+                        <mat-option *ngFor="let class of classes" [value]="class.name">
+                            {{ class.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="userForm.controls.courseClass.touched && userForm.controls.courseClass.invalid">
+                        <span *ngIf="userForm.controls.courseClass.errors.required">Class is mandatory</span>
+                        <span *ngIf="userForm.controls.courseClass.errors.pattern">Class is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Graduation Year</mat-label>
+                    <input matInput formControlName="graduationYear" [matDatepicker]="picker" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error
+                        *ngIf="userForm.controls.graduationYear.touched && userForm.controls.graduationYear.invalid">
+                        <span *ngIf="userForm.controls.graduationYear.errors.required">Graduation year is mandatory</span>
+                        <span *ngIf="userForm.controls.graduationYear.errors.pattern">Graduation Year is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="userForm" label="Work Details" state="auto_stories">
+            <form [formGroup]="userForm">
+                <mat-form-field appearance="fill">
+                    <mat-label>Department</mat-label>
+                    <input matInput formControlName="department" required>
+                    <mat-error *ngIf="userForm.controls.department.touched && userForm.controls.department.invalid">
+                        <span *ngIf="userForm.controls.department.errors.required">Role is mandatory</span>
+                        <span *ngIf="userForm.controls.department.errors.pattern">Role is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Role Offered</mat-label>
+                    <mat-select formControlName="role">
+                        <mat-option *ngFor="let role of roles" [value]="role.name">
+                            {{ role.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" *ngIf="userForm.get('role')?.value === 'Developer'">
+                    <mat-label>Github Link</mat-label>
+                    <input matInput formControlName="githubLink" required>
+                    <mat-error *ngIf="userForm.controls.githubLink.touched && userForm.controls.githubLink.invalid">
+                        <span *ngIf="userForm.controls.githubLink.errors.required">Github link is mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" *ngIf="userForm.get('role')?.value === 'Developer' || userForm.get('role')?.value === 'Designer'">
+                    <mat-label>Portfolio Link</mat-label>
+                    <input matInput formControlName="portfolioLink" required>
+                    <mat-error *ngIf="userForm.controls.portfolioLink.touched && userForm.controls.portfolioLink.invalid">
+                        <span *ngIf="userForm.controls.portfolioLink.errors.required">Portfolio link is mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Sarting Date</mat-label>
+                    <input matInput formControlName="startDate" [matDatepicker]="picka" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="picka"></mat-datepicker-toggle>
+                    <mat-datepicker #picka></mat-datepicker>
+                    <mat-error
+                        *ngIf="userForm.controls.startDate.touched && userForm.controls.startDate.invalid">
+                        <span *ngIf="userForm.controls.startDate.errors.required">Starting date year is mandatory</span>
+                        <span *ngIf="userForm.controls.startDate.errors.pattern">Starting date Year is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Upload CV</mat-label>
+                    <input matInput type="text" [value]="selectedCVName" readonly>
+                    <button mat-icon-button matSuffix (click)="fileInput.click()">
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <mat-error *ngIf="userForm.controls.employeeCV.touched && userForm.controls.employeeCV.invalid">
+                        <span *ngIf="userForm.controls.employeeCV.errors.required">CV is mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+                
+                <input type="file" #fileInput (change)="onCVSelected($event)" style="display: none;">
+               
+            </form>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+        <!-- Icon overrides. -->
+        <ng-template matStepperIcon="user">
+            <mat-icon>person</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="chat">
+            <mat-icon>school</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="auto_stories">
+            <mat-icon>auto_stories</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="edit" let-i="index">
+            @switch (i) {
+            @case (0) {
+            <mat-icon>person</mat-icon>
+            }
+            @case (1) {
+            <mat-icon>school</mat-icon>
+            }
+            @case (2) {
+            <mat-icon>auto_stories</mat-icon>
+            }
+
+            }
+
+        </ng-template>
+    </mat-stepper>
 
 
-            
 
-    </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(userForm.valid && userForm.dirty)">
+    <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()"
+        [disabled]="!(userForm.valid && userForm.dirty)">
         <mat-icon>save</mat-icon> {{ action }}
     </button>
     <button mat-raised-button color="warn" mat-dialog-close>
