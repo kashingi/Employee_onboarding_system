@@ -37,7 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'email', 'role', 'status'];
+  displayedColumns: string[] = ['id', 'name', 'email', 'educationLevel', 'department', 'role', 'userStatus', 'action'];
   dataSource: any;
   responseMessage: any;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
@@ -99,6 +99,7 @@ export class UsersComponent implements OnInit {
 
   //Handle edit user here
   handleEditAction(values: any) {
+    console.log("Values: ", values)
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       action: 'Edit',

@@ -28,7 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
@@ -56,25 +56,30 @@ export class TaskFormComponent implements OnInit {
     public dialogRef: MatDialogRef<TaskFormComponent>,
     private snackbar: SnackbarService,
     private datePipe: DatePipe,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.taskForm = this.formBuilder.group({
-      taskName: [
-        null,
-        [Validators.required, Validators.pattern(GolobalConstants.nameRegex)],
-      ],
+      taskName: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
       invited: [null, [Validators.required]],
       date: [null, [Validators.required]],
-      status: [
-        null,
-        [Validators.required, Validators.pattern(GolobalConstants.nameRegex)],
+      status: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)],
       ],
     });
     if (this.dialogData.action === 'Edit') {
       this.dialogAction = 'Edit';
       this.action = 'Update';
       this.taskForm.patchValue(this.dialogData.data);
+
+
+      // Parse the date string into a real Date object
+      const parsedDate = this.parseDate(this.dialogData.data.date);
+
+      // Patch the form with all fields including parsed date
+      this.taskForm.patchValue({
+        ...this.dialogData.data,
+        date: parsedDate
+      });
     }
   }
 
@@ -146,4 +151,16 @@ export class TaskFormComponent implements OnInit {
       }
     );
   }
+
+  parseDate(dateString: string): Date {
+    const parts = dateString.split('-');
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // month is 0-based
+    const year = parseInt(parts[2], 10);
+    return new Date(year, month, day);
+  }
+
 }
+
+
+

@@ -9,13 +9,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule , DatePipe} from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperIntl, MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 
@@ -50,7 +50,8 @@ export class StepperIntl extends MatStepperIntl {
     MatButtonModule,
     MatInputModule,
     MatStepperModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressBarModule
   ],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss',
@@ -69,6 +70,11 @@ export class UserFormComponent implements OnInit {
   selectedCV: File | null = null;
   selectedCVName: string = '';
 
+  mode: ProgressBarMode = 'buffer';
+  value = 35;
+  value1 = 65;
+  value2 = 85;
+
 
   educationLevels = [
     { name: 'Postgraduate' },
@@ -82,6 +88,11 @@ export class UserFormComponent implements OnInit {
     { name: 'Honors Second Class' },
     { name: 'Second Class Lower' },
     { name: 'Pass' }
+  ];
+
+  statuses = [
+    { name: 'Active' },
+    { name: 'Inactive' }
   ]
 
   constructor(
@@ -114,7 +125,10 @@ export class UserFormComponent implements OnInit {
       githubLink: [null, [Validators.required]],
       portfolioLink: [null, [Validators.required]],
       startDate: [null, [Validators.required]],
-      employeeCV: [null, [Validators.required]]
+      employeeCV: [null, [Validators.required]],
+
+      //Admin to modify
+      userStatus: ['Inactive']
     });
 
     // Listen for changes on the file input
@@ -125,11 +139,28 @@ export class UserFormComponent implements OnInit {
     if (this.dialogData.action === 'Edit') {
       this.dialogAction = 'Edit';
       this.action = 'Update';
-      this.userForm.patchValue(this.dialogData.data);
+      // this.userForm.patchValue(this.dialogData.data);
 
       this.userForm.get('employeeCV')?.clearValidators();
       this.userForm.get('employeeCV')?.updateValueAndValidity();
+
+      // Parse the date string into a real Date object
+      const parsedDate = this.parseDate(this.dialogData.data.startDate);
+      const passGraduation = this.passGration(this.dialogData.data.graduationYear);
+
+      // Patch the form with all fields including parsed date
+      this.userForm.patchValue({
+        ...this.dialogData.data,
+        startDate: parsedDate,
+        graduationYear: passGraduation
+      });
     }
+
+    // Watch role change
+    this.userForm.get('role')?.valueChanges.subscribe((role: string) => {
+      this.updateRoleBasedValidators(role);
+    });
+
     this.getUserRoles();
   }
 
@@ -172,7 +203,7 @@ export class UserFormComponent implements OnInit {
   add() {
     this.ngxService.start();
     // var formData = this.userForm.value;
-    
+
     const formData = this.userForm.value;
     var data: any = {
       name: formData.name,
@@ -190,10 +221,11 @@ export class UserFormComponent implements OnInit {
       githubLink: formData.githubLink,
       portfolioLink: formData.portfolioLink,
       startDate: this.datePipe.transform(formData.startDate, 'dd-MM-yyyy'),
-      employeeCV: formData.employeeCV
+      employeeCV: formData.employeeCV,
+      userStatus: formData.userStatus
     };
 
-    
+
     // Append privileges based on role if needed.
     const role = this.userForm.get('role').value;
     let privileges: any[] = [];
@@ -232,8 +264,6 @@ export class UserFormComponent implements OnInit {
     }
     data = { ...data, privileges };
 
-    
-
     console.log(data);
     this.userService.addUser(data).subscribe(
       (response: any) => {
@@ -261,11 +291,33 @@ export class UserFormComponent implements OnInit {
     let userData: any = {
       name: formData.name,
       email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      idNumber: formData.idNumber,
+      address: formData.address,
+      educationLevel: formData.educationLevel,
+      universityName: formData.universityName,
+      courseName: formData.courseName,
+      // graduationYear: this.datePipe.transform(formData.graduationYear, 'dd-MM-yyyy'),
+      courseClass: formData.courseClass,
       role: formData.role,
+      department: formData.department,
+      githubLink: formData.githubLink,
+      portfolioLink: formData.portfolioLink,
+      // startDate: this.datePipe.transform(formData.startDate, 'dd-MM-yyyy'),
+      userStatus: formData.userStatus
     };
 
-    if (userData.role === 'Admin') {
-      var privileges = [
+    // Remove empty fields (null, undefined, or empty string)
+    Object.keys(userData).forEach(
+      key => (userData[key] == null || userData[key] === '') && delete userData[key]
+    );
+
+
+    // Append privileges based on role if needed.
+    const role = this.userForm.get('role').value;
+    let privileges: any[] = [];
+    if (role === 'Admin') {
+      privileges = [
         { id: 1, name: 'Add User' },
         { id: 2, name: 'Delete User' },
         { id: 3, name: 'Edit User' },
@@ -276,32 +328,29 @@ export class UserFormComponent implements OnInit {
         { id: 8, name: 'View Onboarding Progress' },
         { id: 9, name: 'Access All Dashboards' },
         { id: 10, name: 'Send Notifications' },
-        { id: 11, name: 'Access Employee Directory' },
+        { id: 11, name: 'Access Employee Directory' }
       ];
-      userData = { ...userData, privileges };
-    } else if (userData.role === 'Developer') {
-      var privileges = [
+    } else if (role === 'Developer') {
+      privileges = [
         { id: 1, name: 'View Own Profile' },
         { id: 2, name: 'Complete Onboarding Tasks' },
-        { id: 3, name: 'Access Developer Resources' },
+        { id: 3, name: 'Access Developer Resources' }
       ];
-      userData = { ...userData, privileges };
-    } else if (userData.role === 'Designer') {
-      var privileges = [
+    } else if (role === 'Designer') {
+      privileges = [
         { id: 1, name: 'View Own Profile' },
         { id: 2, name: 'Complete Onboarding Tasks' },
-        { id: 3, name: 'Access Design Resources' },
+        { id: 3, name: 'Access Design Resources' }
       ];
-      userData = { ...userData, privileges };
-    } else if (userData.role === 'HR') {
-      var privileges = [
+    } else if (role === 'HR') {
+      privileges = [
         { id: 1, name: 'View All Employee Profiles' },
         { id: 2, name: 'Manage Onboarding Progress' },
-        { id: 3, name: 'Send Notifications' },
+        { id: 3, name: 'Send Notifications' }
       ];
-      userData = { ...userData, privileges };
     }
-
+    userData = { ...userData, privileges };
+    console.log(userData)
     this.userService.updateUser(userId, userData).subscribe(
       (response: any) => {
         this.dialogRef.close();
@@ -319,5 +368,39 @@ export class UserFormComponent implements OnInit {
         this.snackbar.danger(this.responseMessage, GolobalConstants.error);
       }
     );
+  }
+
+  updateRoleBasedValidators(role: string) {
+    const githubCtrl = this.userForm.get('githubLink');
+    const portfolioCtrl = this.userForm.get('portfolioLink');
+
+    githubCtrl?.clearValidators();
+    portfolioCtrl?.clearValidators();
+
+    if (role === 'Developer') {
+      githubCtrl?.setValidators([Validators.required]);
+      portfolioCtrl?.setValidators([Validators.required]);
+    } else if (role === 'Designer') {
+      portfolioCtrl?.setValidators([Validators.required]);
+    }
+
+    githubCtrl?.updateValueAndValidity();
+    portfolioCtrl?.updateValueAndValidity();
+  }
+  
+  parseDate(dateString: string): Date {
+    const parts = dateString.split('-');
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+    return new Date(year, month, day);
+  }
+
+  passGration(dateString: string): Date {
+    const parts = dateString.split('-');
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+    return new Date(year, month, day);
   }
 }

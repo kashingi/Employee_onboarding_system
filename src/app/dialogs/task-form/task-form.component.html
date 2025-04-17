@@ -21,7 +21,7 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Invites</mat-label>
-            <input matInput formControlName="invited" type="number" required>
+            <input matInput formControlName="invited" required>
             <mat-error *ngIf="taskForm.controls.invited.touched && taskForm.controls.invited.invalid">
                 <span *ngIf="taskForm.controls.invited.errors.required">This field is mandatory</span>
             </mat-error>

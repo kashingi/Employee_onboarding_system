@@ -3,7 +3,7 @@
         <b><span>Manage Employees</span></b>
         <span class="spacer"></span>
         <button mat-raised-button (click)="handleAddAction()">
-            <mat-icon>add_circle</mat-icon> User
+            <mat-icon>add_circle</mat-icon> Employee
         </button>
     </div>
 </mat-card>
@@ -33,12 +33,27 @@
             <td mat-cell *matCellDef="let element">{{ element.email }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="educationLevel">
+            <th mat-header-cell *matHeaderCellDef>Education</th>
+            <td mat-cell *matCellDef="let element">{{ element.educationLevel }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <td mat-cell *matCellDef="let element">{{ element.department }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef>Role</th>
             <td mat-cell *matCellDef="let element">{{ element.role }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="status">
+        <ng-container matColumnDef="userStatus">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">{{ element.userStatus }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
 
             <td mat-cell *matCellDef="let element" class="action-link">

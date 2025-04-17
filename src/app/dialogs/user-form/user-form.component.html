@@ -57,6 +57,11 @@
                     </mat-error>
                 </mat-form-field>
 
+                <hr>
+                <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" color="tertiary">
+                </mat-progress-bar>
+                <hr>
+
                 <div>
                     <button mat-button matStepperNext>Next</button>
                 </div>
@@ -104,8 +109,7 @@
                             {{ class.name }}
                         </mat-option>
                     </mat-select>
-                    <mat-error
-                        *ngIf="userForm.controls.courseClass.touched && userForm.controls.courseClass.invalid">
+                    <mat-error *ngIf="userForm.controls.courseClass.touched && userForm.controls.courseClass.invalid">
                         <span *ngIf="userForm.controls.courseClass.errors.required">Class is mandatory</span>
                         <span *ngIf="userForm.controls.courseClass.errors.pattern">Class is invalid</span>
                     </mat-error>
@@ -118,10 +122,16 @@
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error
                         *ngIf="userForm.controls.graduationYear.touched && userForm.controls.graduationYear.invalid">
-                        <span *ngIf="userForm.controls.graduationYear.errors.required">Graduation year is mandatory</span>
+                        <span *ngIf="userForm.controls.graduationYear.errors.required">Graduation year is
+                            mandatory</span>
                         <span *ngIf="userForm.controls.graduationYear.errors.pattern">Graduation Year is invalid</span>
                     </mat-error>
                 </mat-form-field>
+
+                <hr>
+                <mat-progress-bar class="example-margin" [mode]="mode" [value]="value1">
+                </mat-progress-bar>
+                <hr>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
@@ -139,7 +149,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                
+
                 <mat-form-field appearance="fill">
                     <mat-label>Role Offered</mat-label>
                     <mat-select formControlName="role">
@@ -157,10 +167,12 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill" *ngIf="userForm.get('role')?.value === 'Developer' || userForm.get('role')?.value === 'Designer'">
+                <mat-form-field appearance="fill"
+                    *ngIf="userForm.get('role')?.value === 'Developer' || userForm.get('role')?.value === 'Designer'">
                     <mat-label>Portfolio Link</mat-label>
                     <input matInput formControlName="portfolioLink" required>
-                    <mat-error *ngIf="userForm.controls.portfolioLink.touched && userForm.controls.portfolioLink.invalid">
+                    <mat-error
+                        *ngIf="userForm.controls.portfolioLink.touched && userForm.controls.portfolioLink.invalid">
                         <span *ngIf="userForm.controls.portfolioLink.errors.required">Portfolio link is mandatory</span>
                     </mat-error>
                 </mat-form-field>
@@ -170,14 +182,13 @@
                     <input matInput formControlName="startDate" [matDatepicker]="picka" required>
                     <mat-datepicker-toggle matIconSuffix [for]="picka"></mat-datepicker-toggle>
                     <mat-datepicker #picka></mat-datepicker>
-                    <mat-error
-                        *ngIf="userForm.controls.startDate.touched && userForm.controls.startDate.invalid">
+                    <mat-error *ngIf="userForm.controls.startDate.touched && userForm.controls.startDate.invalid">
                         <span *ngIf="userForm.controls.startDate.errors.required">Starting date year is mandatory</span>
                         <span *ngIf="userForm.controls.startDate.errors.pattern">Starting date Year is invalid</span>
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="fill" *ngIf="dialogAction === 'Add'">
                     <mat-label>Upload CV</mat-label>
                     <input matInput type="text" [value]="selectedCVName" readonly>
                     <button mat-icon-button matSuffix (click)="fileInput.click()">
@@ -187,9 +198,26 @@
                         <span *ngIf="userForm.controls.employeeCV.errors.required">CV is mandatory</span>
                     </mat-error>
                 </mat-form-field>
-                
+
+                <mat-form-field appearance="fill" *ngIf="dialogAction === 'Edit'">
+                    <mat-label>User Status</mat-label>
+                    <mat-select formControlName="userStatus">
+                        <mat-option *ngFor="let status of statuses" [value]="status.name">
+                            {{ status.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="userForm.controls.userStatus.touched && userForm.controls.userStatus.invalid">
+                        <span *ngIf="userForm.controls.userStatus.errors.required">User status is mandatory</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <hr>
+                <mat-progress-bar class="example-margin" [mode]="mode" [value]="value2">
+                </mat-progress-bar>
+                <hr>
+
                 <input type="file" #fileInput (change)="onCVSelected($event)" style="display: none;">
-               
+
             </form>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
@@ -229,7 +257,7 @@
 
 <mat-dialog-actions align="end">
     <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()"
-        [disabled]="!(userForm.valid && userForm.dirty)">
+        [disabled]="dialogAction === 'Add' && !(userForm.valid && userForm.dirty)">
         <mat-icon>save</mat-icon> {{ action }}
     </button>
     <button mat-raised-button color="warn" mat-dialog-close>

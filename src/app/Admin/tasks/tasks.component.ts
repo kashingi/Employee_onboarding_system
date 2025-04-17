@@ -98,6 +98,7 @@ export class TasksComponent implements OnInit {
 
   //Handle edit action here
   handleEditAction(values: any) {
+    console.log("Values: ", values);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       action: 'Edit',
