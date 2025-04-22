@@ -57,6 +57,21 @@
                     </mat-error>
                 </mat-form-field>
 
+                <mat-form-field appearance="fill">
+                    <mat-label>Upload Photo</mat-label>
+                    <input matInput type="text" [value]="selectedPhotoName" readonly formControlName="userProfile">
+                    <button mat-icon-button matSuffix (click)="photoInput.click()">
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <mat-error *ngIf="userForm.controls.userProfile.touched && userForm.controls.userProfile.invalid">
+                        <span *ngIf="userForm.controls.userProfile.errors.required">Profile photo is mandatory</span>
+                        <span *ngIf="userForm.controls.userProfile.errors.invalidFileType">Only image files are allowed</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <input type="file" #photoInput (change)="onPhotoSelected($event)" accept=".jpg,.jpeg,.png,.gif" style="display: none;">
+                
+
                 <hr>
                 <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" color="tertiary">
                 </mat-progress-bar>
@@ -190,7 +205,7 @@
 
                 <mat-form-field appearance="fill" *ngIf="dialogAction === 'Add'">
                     <mat-label>Upload CV</mat-label>
-                    <input matInput type="text" [value]="selectedCVName" readonly>
+                    <input matInput type="text" [value]="selectedCVName" readonly formControlName="employeeCV">
                     <button mat-icon-button matSuffix (click)="fileInput.click()">
                         <mat-icon>attach_file</mat-icon>
                     </button>

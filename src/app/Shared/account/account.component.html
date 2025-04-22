@@ -1,0 +1,55 @@
+<div class="card" style="width: 98%;">
+    <h6 class="card-title text-center mt-2">Welcome {{user.name}} </h6>
+    <div class="row">
+        <div class="col-sm-2">
+            <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Profile Photo" class="img-fluid rounded-circle"
+                width="50px" />
+            <hr class="w-75 mx-auto">
+        </div>
+
+        <div class="col-sm-4 content-text" style="margin-left: 5%;">
+            <div class="row">Name: {{ user.name }}</div>
+            <div class="row">Email: {{ user.email}} </div>
+            <div class="row">Contact: {{ user.phoneNumber }} </div>
+            <hr class="w-75">
+        </div>
+        <div class="col-sm-4 content-text">
+            <div class="row mx-auto">Id Number: {{ user.idNumber }} </div>
+            <div class="row mx-auto">Address: {{user.address}} </div>
+            <div class="row mx-auto">Role: {{ user.role}} </div>
+            <hr class="w-75">
+        </div>
+    </div>
+</div>
+<div class="row mt-2 w-100">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-title">
+                <h6 class="card-title rounded-top bg-secondary">Academic Information</h6>
+
+            </div>
+            <div class="card-body mx-2">
+                <div class="row">Education Level: {{user.educationLevel}} </div>
+                <div class="row">University Name: {{user.universityName}} </div>
+                <div class="row">Course: {{ user.courseName }} </div>
+                <div class="row">Qualification: {{ user.courseClass }} </div>
+                <div class="row">Graduation Year: {{ user.graduationYear }} </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-title">
+                <h6 class="card-title text-center rounded-top bg-secondary">Work & Experience</h6>
+
+            </div>
+            <div class="card-body mx-2">
+                <div class="row">Department: {{user.department}} </div>
+                <div class="row">Github Link: {{user.githubLink}} </div>
+                <div class="row">Portfolio Link: {{ user.portfolioLink }} </div>
+                <div class="row">Start Date: {{ user.startDate }} </div>
+                <div class="row">Role: {{ user.role }} </div>
+            </div>
+        </div>
+    </div>
+</div>

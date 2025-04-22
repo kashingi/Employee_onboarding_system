@@ -5,6 +5,7 @@ import { UsersComponent } from './Admin/users/users.component';
 import { TasksComponent } from './Admin/tasks/tasks.component';
 import { ResourcesComponent } from './Admin/resources/resources.component';
 import { DashboardComponent } from './User/dashboard/dashboard.component';
+import { AccountComponent } from './Shared/account/account.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -14,7 +15,8 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'users', component: UsersComponent },
             { path: 'tasks', component: TasksComponent },
-            { path: 'resources', component: ResourcesComponent }
+            { path: 'resources', component: ResourcesComponent },
+            { path: 'account', component: AccountComponent }
         ]
     },
 

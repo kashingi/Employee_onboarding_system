@@ -26,11 +26,10 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     
   }
-  //Logout function
-  // logout(){
-  //   this.router.navigate(['/']);
-  //   this.snackbar.success("You logged out successfully.", "X")
-  // }
+  //Open or navigate to your account
+  openAccount() {
+    this.router.navigate(['admin/home/account'])
+  }
 
   logout(){
     const dialogConfig = new MatDialogConfig();

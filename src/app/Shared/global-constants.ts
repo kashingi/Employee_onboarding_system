@@ -1,4 +1,4 @@
-export class GolobalConstants{
+export class GolobalConstants {
     //Message
     public static genericError: string = "Something went wrong. Please try again latter";
 
@@ -9,11 +9,11 @@ export class GolobalConstants{
     public static productAdded: string = "Product added successfully";
 
     //Regex
-    public static nameRegex:string = "[a-zA-Z0-9 ]*";
+    public static nameRegex: string = "[a-zA-Z0-9 ]*";
 
-    public static emailRegex:string = "[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}";
+    public static emailRegex: string = "[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}";
 
-    public static contactNumberRegex:string = "^[e0-9]{10,10}$";
+    public static contactNumberRegex: string = "^[e0-9]{10,10}$";
 
     public static idNumber: string = "^[1-9][0-9]{7}$";
 
@@ -23,5 +23,16 @@ export class GolobalConstants{
     public static passwordRegex: string = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
 
     //Variable
-    public static error:string = "error";
+    public static error: string = "error";
+
+    public static imageFileValidator(control: any) {
+        const file = control.value;
+        if (file && file.type) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+            return validTypes.includes(file.type) ? null : { invalidFileType: true };
+        }
+        return null;
+      }
+
 }
+

@@ -69,6 +69,8 @@ export class UserFormComponent implements OnInit {
   roles: any = [];
   selectedCV: File | null = null;
   selectedCVName: string = '';
+  selectedPhoto: File | null = null;
+  selectedPhotoName: string = '';
 
   mode: ProgressBarMode = 'buffer';
   value = 35;
@@ -112,6 +114,7 @@ export class UserFormComponent implements OnInit {
       phoneNumber: [null, [Validators.required, Validators.pattern(GolobalConstants.contactNumberRegex)]],
       idNumber: [null, [Validators.required, Validators.pattern(GolobalConstants.idNumber)]],
       address: [null, [Validators.required]],
+      userProfile: [null, [Validators.required, GolobalConstants.imageFileValidator]],
 
       //Academic Information
       educationLevel: [null, [Validators.required]],
@@ -134,6 +137,10 @@ export class UserFormComponent implements OnInit {
     // Listen for changes on the file input
     this.userForm.controls['employeeCV'].valueChanges.subscribe((file: File) => {
       this.selectedCV = file;
+    });
+
+    this.userForm.controls['userProfile'].valueChanges.subscribe((file: File) => {
+      this.selectedPhoto = file;
     });
 
     if (this.dialogData.action === 'Edit') {
@@ -177,6 +184,31 @@ export class UserFormComponent implements OnInit {
     }
   }
 
+  onPhotoSelected(event: any): void {
+    const file = event.target.files[0] as File;
+    this.selectedPhoto = file;
+  
+    if (file) {
+      this.selectedPhotoName = file.name;
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1]; // Get Base64 part only
+  
+        // Update the form with the Base64 string
+        this.userForm.controls['userProfile'].setValue(base64String);
+        this.userForm.controls['userProfile'].markAsTouched();
+        this.userForm.controls['userProfile'].updateValueAndValidity();
+      };
+  
+      reader.readAsDataURL(file); // This triggers reader.onload
+    } else {
+      this.selectedPhotoName = '';
+      this.userForm.controls['userProfile'].setValue(null);
+    }
+  }
+  
+
 
   //Fetch users roles here
   getUserRoles() {
@@ -211,6 +243,7 @@ export class UserFormComponent implements OnInit {
       phoneNumber: formData.phoneNumber,
       idNumber: formData.idNumber,
       address: formData.address,
+      userProfile: formData.userProfile,
       educationLevel: formData.educationLevel,
       universityName: formData.universityName,
       courseName: formData.courseName,
@@ -294,6 +327,7 @@ export class UserFormComponent implements OnInit {
       phoneNumber: formData.phoneNumber,
       idNumber: formData.idNumber,
       address: formData.address,
+      userProfile: formData.userProfile,
       educationLevel: formData.educationLevel,
       universityName: formData.universityName,
       courseName: formData.courseName,
@@ -404,3 +438,5 @@ export class UserFormComponent implements OnInit {
     return new Date(year, month, day);
   }
 }
+
+

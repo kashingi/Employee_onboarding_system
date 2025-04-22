@@ -77,4 +77,11 @@ export class UserService {
 
     return this.httpClient.delete<any>(deleteUrl);
   }
+  
+  //get loginIn user from the database
+  getLoggedInUser(userEmail: any): Observable<any> {
+    const userUrl = `${this.url}users?email=${userEmail}`;
+
+    return this.httpClient.get<any[]>(userUrl);
+  } 
 }

@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
       email: formData.email,
       password: formData.password,
     };
+    localStorage.setItem('loggedInEmail', loginData.email);
     console.log(loginData);
     // this.loginService.login(loginData).subscribe(
     //   (resp: any)=>{
