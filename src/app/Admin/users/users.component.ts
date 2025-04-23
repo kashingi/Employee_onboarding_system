@@ -59,6 +59,7 @@ export class UsersComponent implements OnInit {
     this.ngxService.start();
     this.userService.getUsers().subscribe(
       (resp: any) => {
+        console.log("All the Users: ",resp)
         this.ngxService.stop();
         this.dataSource = new MatTableDataSource(resp);
         this.dataSource.paginator = this.paginator;

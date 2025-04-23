@@ -1,6 +1,9 @@
 <div class="card" style="width: 98%;">
-    <h6 class="card-title text-center mt-2">Welcome {{user.name}} </h6>
-    <div class="row">
+    <div class="row card-title d-flex justify-content-between">
+        <h6 class="col-sm-8 mt-2 mx-3">Welcome {{user.name}} </h6>
+        <button mat-icon-button class="mx-3 col-sm-4" matTooltip="Update Details" (click)="handleEditAction(user)"><mat-icon>add_circle</mat-icon></button>
+    </div>
+    <div class="row card-body">
         <div class="col-sm-2">
             <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Profile Photo" class="img-fluid rounded-circle"
                 width="50px" />
@@ -24,9 +27,8 @@
 <div class="row mt-2 w-100">
     <div class="col-sm-6">
         <div class="card">
-            <div class="card-title">
+            <div class="card-title text-center">
                 <h6 class="card-title rounded-top bg-secondary">Academic Information</h6>
-
             </div>
             <div class="card-body mx-2">
                 <div class="row">Education Level: {{user.educationLevel}} </div>

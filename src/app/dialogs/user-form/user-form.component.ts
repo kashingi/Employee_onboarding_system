@@ -171,18 +171,23 @@ export class UserFormComponent implements OnInit {
     this.getUserRoles();
   }
 
-  onCVSelected(event: any): void {
-    this.selectedCV = event.target.files[0] as File;
-    if (this.selectedCV) {
-      this.selectedCVName = this.selectedCV.name;
-      this.userForm.controls['employeeCV'].setValue(this.selectedCV); // Update the form control value
+  
+  onCVSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+  
+    this.selectedCVName = file.name;
+    const reader = new FileReader();
+    reader.onload = () => {
+      // reader.result is like "data:application/pdf;base64,JVBERi0xL..."
+      const base64 = (reader.result as string).split(',')[1];
+      this.userForm.controls['employeeCV'].setValue(base64);
       this.userForm.controls['employeeCV'].markAsTouched();
       this.userForm.controls['employeeCV'].updateValueAndValidity();
-    } else {
-      this.selectedCVName = '';
-      this.userForm.controls['employeeCV'].setValue(null);
-    }
+    };
+    reader.readAsDataURL(file);
   }
+  
 
   onPhotoSelected(event: any): void {
     const file = event.target.files[0] as File;
