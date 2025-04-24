@@ -1,5 +1,5 @@
-<div class="user-details">
-    <h6>User: moriskashing74&#64;gmail.com</h6>
+<div class="user-details" *ngIf="user">
+    <h6> <img [src]="profileImageUrl" alt="Profile" class="img-fluid rounded-circle"> : {{ user.email }} </h6>
 
     <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
         <mat-icon>account_circle</mat-icon>

@@ -65,7 +65,6 @@ export class LoginComponent implements OnInit {
       password: formData.password,
     };
     localStorage.setItem('loggedInEmail', loginData.email);
-    console.log(loginData);
     // this.loginService.login(loginData).subscribe(
     //   (resp: any)=>{
     //     this.ngxService.stop()

@@ -159,20 +159,20 @@
                     <mat-label>Department</mat-label>
                     <input matInput formControlName="department" required readonly>
                     <mat-error *ngIf="updateForm.controls.department.touched && updateForm.controls.department.invalid">
-                        <span *ngIf="updateForm.controls.department.errors.required">Role is mandatory</span>
-                        <span *ngIf="updateForm.controls.department.errors.pattern">Role is invalid</span>
+                        <span *ngIf="updateForm.controls.department.errors.required">Department is mandatory</span>
+                        <span *ngIf="updateForm.controls.department.errors.pattern">Department is invalid</span>
                     </mat-error>
                 </mat-form-field>
 
 
-                <mat-form-field appearance="fill">
+                <!-- <mat-form-field appearance="fill">
                     <mat-label>Role Offered</mat-label>
                     <mat-select formControlName="role">
                         <mat-option *ngFor="let role of roles" [value]="role.name" readonly>
                             {{ role.name }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field appearance="fill" *ngIf="updateForm.get('role')?.value === 'Developer'">
                     <mat-label>Github Link</mat-label>

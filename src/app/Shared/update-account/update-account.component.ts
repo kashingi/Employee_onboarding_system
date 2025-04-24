@@ -135,7 +135,7 @@ export class UpdateAccountComponent implements OnInit {
       courseClass: [null, [Validators.required]],
       graduationYear: [null, [Validators.required]],
       // Employment Details
-      role: [{ value: this.dialogData.data.role, disabled: true }],
+      role: [{ value: this.dialogData.data.role, disabled: false }],
       department: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
       githubLink: [null, [Validators.required]],
       portfolioLink: [null, [Validators.required]],
@@ -143,7 +143,7 @@ export class UpdateAccountComponent implements OnInit {
       employeeCV: [null, [Validators.required]],
 
       //Admin to modify
-      userStatus: ['Inactive'],
+      //userStatus: ['Inactive'],
     });
 
     // Parse the date string into a real Date object
@@ -157,17 +157,28 @@ export class UpdateAccountComponent implements OnInit {
       graduationYear: passGraduation
     });
 
-    this.getUserRoles();
+    // this.getUserRoles();
   }
 
 
   onCVSelected(event: any): void {
-    this.selectedCV = event.target.files[0] as File;
-    if (this.selectedCV) {
-      this.selectedCVName = this.selectedCV.name;
-      this.updateForm.controls['employeeCV'].setValue(this.selectedCV); // Update the form control value
-      this.updateForm.controls['employeeCV'].markAsTouched();
-      this.updateForm.controls['employeeCV'].updateValueAndValidity();
+    const file = event.target.files[0] as File;
+    this.selectedCV = file;
+
+    if (file) {
+      this.selectedCVName = file.name;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+
+        // Update the form with the Base64 string
+        this.updateForm.controls['employeeCV'].setValue(base64String);
+        this.updateForm.controls['employeeCV'].markAsTouched();
+        this.updateForm.controls['employeeCV'].updateValueAndValidity();
+      };
+
+      reader.readAsDataURL(file);
     } else {
       this.selectedCVName = '';
       this.updateForm.controls['employeeCV'].setValue(null);
@@ -177,42 +188,41 @@ export class UpdateAccountComponent implements OnInit {
   onPhotoSelected(event: any): void {
     const file = event.target.files[0] as File;
     this.selectedPhoto = file;
-  
+
     if (file) {
       this.selectedPhotoName = file.name;
-  
+
       const reader = new FileReader();
       reader.onload = () => {
         const base64String = (reader.result as string).split(',')[1]; // Get Base64 part only
-  
+
         // Update the form with the Base64 string
         this.updateForm.controls['userProfile'].setValue(base64String);
         this.updateForm.controls['userProfile'].markAsTouched();
         this.updateForm.controls['userProfile'].updateValueAndValidity();
       };
-  
+
       reader.readAsDataURL(file); // This triggers reader.onload
     } else {
       this.selectedPhotoName = '';
       this.updateForm.controls['userProfile'].setValue(null);
     }
   }
-
   //get all available role
-  getUserRoles() {
-    this.userService.getRoles().subscribe(
-      (resp: any) => {
-        console.log(resp);
-        this.roles = resp;
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
-  }
+  // getUserRoles() {
+  //   this.userService.getRoles().subscribe(
+  //     (resp: any) => {
+  //       console.log(resp);
+  //       this.roles = resp;
+  //     },
+  //     (error: any) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
-  edit() {
-    var userId = this.dialogData.data.id;
+  handleSubmit() {
+    var userEmail = this.dialogData.data.email;
     var formData = this.updateForm.value;
     let userData: any = {
       name: formData.name,
@@ -224,19 +234,21 @@ export class UpdateAccountComponent implements OnInit {
       educationLevel: formData.educationLevel,
       universityName: formData.universityName,
       courseName: formData.courseName,
-      // graduationYear: this.datePipe.transform(formData.graduationYear, 'dd-MM-yyyy'),
+      graduationYear: this.datePipe.transform(formData.graduationYear, 'dd-MM-yyyy'),
       courseClass: formData.courseClass,
-      role: formData.role,
+     // role: formData.role,
       department: formData.department,
       githubLink: formData.githubLink,
       portfolioLink: formData.portfolioLink,
-      // startDate: this.datePipe.transform(formData.startDate, 'dd-MM-yyyy'),
-      userStatus: formData.userStatus,
+      startDate: this.datePipe.transform(formData.startDate, 'dd-MM-yyyy'),
+      employeeCV: formData.employeeCV,
+      //userStatus: formData.userStatus,
     };
 
-    console.log(userData);
-    this.userService.updateUser(userId, userData).subscribe(
+    console.log(userEmail,userData);
+    this.userService.updateUserByEmail(userEmail, userData).subscribe(
       (response: any) => {
+        console.log(response)
         this.dialogRef.close();
         this.onEditProduct.emit();
         this.responseMessage = response.Message;
@@ -254,7 +266,6 @@ export class UpdateAccountComponent implements OnInit {
     );
   }
 
-  handleSubmit() { }
 
 
   parseDate(dateString: string): Date {

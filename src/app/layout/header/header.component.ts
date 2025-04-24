@@ -6,25 +6,33 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { MatButtonModule } from '@angular/material/button'
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { UserService } from '../../services/user.service';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-header',
-  imports: [MatMenuModule, MatIconModule, MatButtonModule],
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit{
 
+  user: any;
+  profileImageUrl = '';
+
   constructor (
     private router: Router,
     private snackbar: SnackbarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngxService: NgxUiLoaderService,
+    private userService: UserService
   ){}
 
   ngOnInit(): void {
-    
+    this.currentUser();
   }
   //Open or navigate to your account
   openAccount() {
@@ -45,4 +53,24 @@ export class HeaderComponent implements OnInit{
       this.snackbar.success("You logged out successfully.", "X")
     })
   }  
+
+  //get loggedIn user
+  currentUser() {
+    let userEmail = localStorage.getItem('loggedInEmail');
+    console
+    this.ngxService.start();
+    this.userService.getLoggedInUser(userEmail).subscribe(
+      (resp: any) => {
+        this.ngxService.stop();
+        if (resp.length > 0) {
+          this.user = resp[0];
+          this.profileImageUrl = `data:image/jpeg;base64,${this.user.userProfile}`;
+        }
+      },
+      (error: any) => {
+        this.ngxService.stop();
+        console.log(error);
+      }
+    );
+  }
 }

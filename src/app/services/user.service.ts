@@ -84,4 +84,11 @@ export class UserService {
 
     return this.httpClient.get<any[]>(userUrl);
   } 
+
+  //Update user by email
+  updateUserByEmail(userEmail: any, updateData: any): Observable<any> {
+    const updateUrl = `${this.url}users?email=${userEmail}`;
+
+    return this.httpClient.patch<any>(updateUrl, updateData);
+  }
 }

@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
   styleUrl: './account.component.scss',
 })
 export class AccountComponent implements OnInit {
-[x: string]: any;
+
   user: any;
   profileImageUrl = '';
 
@@ -45,7 +45,6 @@ export class AccountComponent implements OnInit {
     this.userService.getLoggedInUser(userEmail).subscribe(
       (resp: any) => {
         this.ngxService.stop();
-        console.log(resp);
         if (resp.length > 0) {
           this.user = resp[0];
           // prepend the proper data URI header
@@ -60,7 +59,7 @@ export class AccountComponent implements OnInit {
   }
 
   handleEditAction(values: any) {
-    console.log(values);
+    console.log("User Values : " ,values);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       data: values,
