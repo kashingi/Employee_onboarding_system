@@ -222,7 +222,8 @@ export class UpdateAccountComponent implements OnInit {
   // }
 
   handleSubmit() {
-    var userEmail = this.dialogData.data.email;
+    this.ngxService.start();
+    var userId = this.dialogData.data.id;
     var formData = this.updateForm.value;
     let userData: any = {
       name: formData.name,
@@ -245,9 +246,9 @@ export class UpdateAccountComponent implements OnInit {
       //userStatus: formData.userStatus,
     };
 
-    console.log(userEmail,userData);
-    this.userService.updateUserByEmail(userEmail, userData).subscribe(
+    this.userService.updateUserByEmail(userId, userData).subscribe(
       (response: any) => {
+        this.ngxService.stop();
         console.log(response)
         this.dialogRef.close();
         this.onEditProduct.emit();
@@ -255,6 +256,7 @@ export class UpdateAccountComponent implements OnInit {
         this.snackbar.success('User updated successfully.', 'X');
       },
       (error: any) => {
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.error) {
           this.responseMessage = error.error?.Message;

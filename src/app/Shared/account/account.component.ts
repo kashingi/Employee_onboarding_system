@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { UpdateAccountComponent } from '../update-account/update-account.component';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-account',
@@ -24,39 +26,33 @@ import { Router } from '@angular/router';
 })
 export class AccountComponent implements OnInit {
 
-  user: any;
-  profileImageUrl = '';
+  userForm: any = FormGroup;
+  userId: any;
+
+ 
+  profileImgUrl = signal<string>('');
+
+
+  selectedPhoto: File | null = null;
+  selectedPhotoName: string = '';
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private ngxService: NgxUiLoaderService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private snackbar: SnackbarService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.currentUser();
+    this.userForm = this.formBuilder.group({
+      userProfile: ['', [Validators.required]],
+    });
+    this.userService.currentUser();
   }
 
-  //get loggedIn user
-  currentUser() {
-    let userEmail = localStorage.getItem('loggedInEmail');
-    this.ngxService.start();
-    this.userService.getLoggedInUser(userEmail).subscribe(
-      (resp: any) => {
-        this.ngxService.stop();
-        if (resp.length > 0) {
-          this.user = resp[0];
-          // prepend the proper data URI header
-          this.profileImageUrl = `data:image/jpeg;base64,${this.user.userProfile}`;
-        }
-      },
-      (error: any) => {
-        this.ngxService.stop();
-        console.log(error);
-      }
-    );
-  }
+  
 
   handleEditAction(values: any) {
     console.log("User Values : " ,values);
@@ -69,6 +65,7 @@ export class AccountComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdateAccountComponent, dialogConfig);
     this.router.events.subscribe(() => {
       dialogRef.close();
+      this.userService.currentUser();
     });
 
     const sub = dialogRef.componentInstance.onEditProduct.subscribe(
@@ -77,4 +74,53 @@ export class AccountComponent implements OnInit {
       }
     );
   }
+
+  onPhotoSelected(event: any): void {
+    const file = event.target.files[0] as File;
+    this.selectedPhoto = file;
+  
+    if (file) {
+      this.selectedPhotoName = file.name;
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+  
+        // Update form control (if needed for later saving)
+        this.userForm.controls['userProfile'].setValue(base64String);
+        this.userForm.controls['userProfile'].markAsTouched();
+        this.userForm.controls['userProfile'].updateValueAndValidity();
+  
+        // 👇 Update image preview immediately
+        this.userService.profileImageUrl = reader.result as string;
+      };
+  
+      reader.readAsDataURL(file);
+    } else {
+      this.selectedPhotoName = '';
+      this.userForm.controls['userProfile'].setValue(null);
+    }
+  }
+
+  //Update the newly selected photo
+  updateProfilePhoto() {
+    this.ngxService.start();
+    let userProfile = this.userForm.value;
+
+    this.userService.updatePhoto(this.userService.user.id, userProfile).subscribe(
+      (resp: any)=>{
+        this.ngxService.stop();
+        console.log(resp);
+        this.snackbar.success("Profile updated successfully.", "X");
+        this.userForm.reset();
+        this.userService.currentUser();
+      },
+      (error: any)=>{
+        this.ngxService.stop();
+        console.log(error);
+        this.snackbar.danger("The ystem is busy, kindly try again later.", "X");
+      }
+    );
+  }
+  
 }

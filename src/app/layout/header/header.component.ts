@@ -28,11 +28,11 @@ export class HeaderComponent implements OnInit{
     private snackbar: SnackbarService,
     private dialog: MatDialog,
     private ngxService: NgxUiLoaderService,
-    private userService: UserService
+    public userService: UserService
   ){}
 
   ngOnInit(): void {
-    this.currentUser();
+    this.userService.currentUser();
   }
   //Open or navigate to your account
   openAccount() {
@@ -54,23 +54,5 @@ export class HeaderComponent implements OnInit{
     })
   }  
 
-  //get loggedIn user
-  currentUser() {
-    let userEmail = localStorage.getItem('loggedInEmail');
-    console
-    this.ngxService.start();
-    this.userService.getLoggedInUser(userEmail).subscribe(
-      (resp: any) => {
-        this.ngxService.stop();
-        if (resp.length > 0) {
-          this.user = resp[0];
-          this.profileImageUrl = `data:image/jpeg;base64,${this.user.userProfile}`;
-        }
-      },
-      (error: any) => {
-        this.ngxService.stop();
-        console.log(error);
-      }
-    );
-  }
+  
 }

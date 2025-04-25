@@ -10,6 +10,8 @@ export class UserService {
 
   url = environment.baseUrl;
   apiUrl = environment.baseAPI;
+  profileImageUrl = '';
+  user: any;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -86,9 +88,38 @@ export class UserService {
   } 
 
   //Update user by email
-  updateUserByEmail(userEmail: any, updateData: any): Observable<any> {
-    const updateUrl = `${this.url}users?email=${userEmail}`;
+  updateUserByEmail(userId: any, updateData: any): Observable<any> {
+    const updateUrl = `${this.url}users/${userId}`;
 
     return this.httpClient.patch<any>(updateUrl, updateData);
+  }
+
+  //Update profile photo only
+  updatePhoto(userId: any, userProfile: any): Observable<any> {
+    const profileUrl = `${this.url}users/${userId}`;
+
+    return this.httpClient.patch<any>(profileUrl, userProfile);
+  }
+
+  //get loggedIn user
+  currentUser() {
+    let userEmail = localStorage.getItem('loggedInEmail');
+    // this.ngxService.start();
+    this.getLoggedInUser(userEmail).subscribe(
+      (resp: any) => {
+        // this.ngxService.stop();
+        if (resp.length > 0) {
+          this.user = resp[0];
+          // this.userId = this.user.id;
+          // prepend the proper data URI header
+          this.profileImageUrl = `data:image/jpeg;base64,${this.user.userProfile}`;
+          // this.profileImgUrl.set(`data:image/jpeg;base64,${this.user.userProfile}`);
+        }
+      },
+      (error: any) => {
+        // this.ngxService.stop();
+        console.log(error);
+      }
+    );
   }
 }
