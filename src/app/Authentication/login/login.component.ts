@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   loginForm: any = FormGroup;
   resposeMessage: any;
+  userRole: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,22 +39,15 @@ export class LoginComponent implements OnInit {
     private snackbar: SnackbarService,
     private router: Router,
     private loginService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: [
-        null,
-        [Validators.required, Validators.pattern(GolobalConstants.emailRegex)],
-      ],
-      password: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(GolobalConstants.passwordRegex),
-        ],
-      ],
+      email: [null, [Validators.required, Validators.pattern(GolobalConstants.emailRegex)]],
+      password: [null, [Validators.required]],
     });
+
+    this.loginService.currentUser();
   }
 
   //handle submit action here
@@ -65,7 +59,26 @@ export class LoginComponent implements OnInit {
       password: formData.password,
     };
     localStorage.setItem('loggedInEmail', loginData.email);
-    // this.loginService.login(loginData).subscribe(
+    let userEmail = formData.email;
+    this.loginService.getLoggedInUser(userEmail).subscribe(
+      (resp: any) => {
+        console.log("The user is : ", resp);
+        this.userRole = resp[0].role;
+        console.log(this.userRole)
+        if (this.userRole === 'Admin') {
+          this.router.navigate(['admin/home/dashboard']);
+          this.ngxService.stop();
+          this.snackbar.success('Login Successfully.', 'X');
+        } else if (this.userRole === 'Developer' || this.userRole === 'Designer' || this.userRole === 'HR') {
+          this.router.navigate(['user/dashboard']);
+          this.ngxService.stop();
+          this.snackbar.success('Login Successfully.', 'X');
+        }else{
+          this.snackbar.warning("Kindly register to access this system.", "X");
+        }
+      }
+    );
+    // this.loginService.loginUser(loginData).subscribe(
     //   (resp: any)=>{
     //     this.ngxService.stop()
     //     console.log(resp)
@@ -75,12 +88,12 @@ export class LoginComponent implements OnInit {
     //     console.log(error)
     //   }
     // );
-    if (this.loginForm.valid) {
-      var formData = this.loginForm.value;
-      console.log(this.loginForm.value);
-      this.router.navigate(['admin/home/dashboard']);
-      this.ngxService.stop();
-      this.snackbar.success('Login Successfully.', 'X');
-    }
+    // if (this.loginForm.valid) {
+    //   var formData = this.loginForm.value;
+    //   console.log(this.loginForm.value);
+    //   this.router.navigate(['admin/home/dashboard']);
+    //   this.ngxService.stop();
+    //   this.snackbar.success('Login Successfully.', 'X');
+    // }
   }
 }

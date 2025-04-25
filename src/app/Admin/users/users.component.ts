@@ -80,7 +80,6 @@ export class UsersComponent implements OnInit {
   //Add user here
   handleAddAction() {
     const dialogConfig = new MatDialogConfig();
-    console.log('Clicked : ');
     dialogConfig.data = {
       action: 'Add',
     };

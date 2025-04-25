@@ -12,6 +12,7 @@ export class UserService {
   apiUrl = environment.baseAPI;
   profileImageUrl = '';
   user: any;
+  Role: any;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,6 +21,11 @@ export class UserService {
     const loginUrl = `${environment.baseAPI}/api/auth/login`;
 
     return this.httpClient.post<any>(loginUrl, loginData);
+  }
+  public loginUser(loginData: any): Observable<any> {
+    const loginUserUlr = 'https://afbb-2c0f-fe38-2020-79ae-694d-eed7-6699-9ca.ngrok-free.app/api/auth/login';
+
+    return this.httpClient.post<any>(loginUserUlr, loginData);
   }
 
   //Function to add user into the database
@@ -110,7 +116,7 @@ export class UserService {
         // this.ngxService.stop();
         if (resp.length > 0) {
           this.user = resp[0];
-          // this.userId = this.user.id;
+          this.Role = this.user.role;
           // prepend the proper data URI header
           this.profileImageUrl = `data:image/jpeg;base64,${this.user.userProfile}`;
           // this.profileImgUrl.set(`data:image/jpeg;base64,${this.user.userProfile}`);
