@@ -1,42 +1,43 @@
 <div class="login-container">
-    <div class="left-column"></div>
-    <div class="right-column">
-      <!-- <h1>Employ Onboarding System</h1> -->
-      <form [formGroup]="loginForm">
-        <h1>Welcome back to EOS</h1>
-        
-  
-        <div class="form-details">
-          <h4>Login Here</h4>
-          <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required>
-            <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
-                <span *ngIf="loginForm.controls.email.errors.required">This field is mandatory</span>
-                <span *ngIf="loginForm.controls.email.errors.pattern">This field is invalid</span>
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="fill">
-              <mat-label>Password</mat-label>
-              <input matInput formControlName="password" type="password" required [type]="hide ? 'password' : 'text'">
-              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
-                  <mat-icon> {{ hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-              <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
-                  <span *ngIf="loginForm.controls.password.errors.required">This field is mandatory</span>
-                  <span *ngIf="loginForm.controls.password.errors.pattern">Invalid Password</span>
-              </mat-error>
-          </mat-form-field>
-  
-          <div class="login-details">
-            <button mat-raised-button color="secondary" type="submit" [disabled]="!(loginForm.valid && loginForm.dirty)" (click)="login()">
-              <mat-icon>login</mat-icon>Login
-            </button>
-            <a href="#">Forget Password</a>
-          </div>
+  <div class="left-column"></div>
+  <div class="right-column">
+    <!-- <h1>Employ Onboarding System</h1> -->
+    <form [formGroup]="loginForm">
+      <h3>Welcome back to EOS</h3>
+
+
+      <div class="form-details">
+        <h4>Login Here</h4>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required>
+          <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+            <span *ngIf="loginForm.controls.email.errors.required">This field is mandatory</span>
+            <span *ngIf="loginForm.controls.email.errors.pattern">This field is invalid</span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" required [type]="hide ? 'password' : 'text'">
+          <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon> {{ hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+            <span *ngIf="loginForm.controls.password.errors.required">This field is mandatory</span>
+            <span *ngIf="loginForm.controls.password.errors.pattern">Invalid Password</span>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="login-details">
+          <button mat-raised-button color="secondary" type="submit" [disabled]="!(loginForm.valid && loginForm.dirty)"
+            (click)="login()">
+            <mat-icon>login</mat-icon>Login
+          </button>
+          <a href="#">Forget Password</a>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  
+</div>

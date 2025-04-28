@@ -17,6 +17,8 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @Component({
@@ -28,7 +30,9 @@ import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.c
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule,
+    MatMenuModule
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
@@ -38,6 +42,7 @@ export class TasksComponent implements OnInit {
     'id',
     'taskName',
     'invited',
+    'assignedTo',
     'date',
     'status',
     'action',
@@ -45,6 +50,8 @@ export class TasksComponent implements OnInit {
   dataSource: any;
   responseMessage: any;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+
+  users: any;
 
   constructor(
     private ngxService: NgxUiLoaderService,
@@ -56,6 +63,7 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTasks();
+    this.getAllUsers();
   }
 
   //get all tasks from the database
@@ -71,6 +79,27 @@ export class TasksComponent implements OnInit {
       (error: any) => {
         this.ngxService.stop();
         console.log(error);
+      }
+    );
+  }
+
+  //get users to be assigned tasks
+  getAllUsers() {
+    this.ngxService.start();
+    this.taskService.getUsers().subscribe(
+      (resp: any) => {
+        this.users = resp;
+        console.log("All the Users: ", this.users)
+      },
+      (error: any) => {
+        this.ngxService.stop();
+        console.log(error);
+        if (error.error?.Message) {
+          this.responseMessage = error.error?.Message;
+        } else {
+          this.responseMessage = GolobalConstants.genericError;
+        }
+        this.snackbar.danger(this.responseMessage, GolobalConstants.error);
       }
     );
   }
@@ -130,14 +159,14 @@ export class TasksComponent implements OnInit {
     const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
       (response) => {
         this.ngxService.start();
-        this.deleteUser(values.id);
+        this.deleteTask(values.id);
         dialogRef.close();
       }
     );
   }
 
   //Implement Delete user
-  deleteUser(id: any) {
+  deleteTask(id: any) {
     this.taskService.deleteTask(id).subscribe(
       (response: any) => {
         this.ngxService.stop();

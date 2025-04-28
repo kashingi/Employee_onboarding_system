@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.pattern(GolobalConstants.emailRegex)]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required, Validators.pattern(GolobalConstants.passwordRegex)]],
     });
 
     this.loginService.currentUser();
@@ -53,8 +53,8 @@ export class LoginComponent implements OnInit {
   //handle submit action here
   login() {
     this.ngxService.start();
-    var formData = this.loginForm.value;
-    var loginData = {
+    let formData = this.loginForm.value;
+    let loginData = {
       email: formData.email,
       password: formData.password,
     };
@@ -62,38 +62,54 @@ export class LoginComponent implements OnInit {
     let userEmail = formData.email;
     this.loginService.getLoggedInUser(userEmail).subscribe(
       (resp: any) => {
-        console.log("The user is : ", resp);
+        console.log("The user is : ", resp[0]);
         this.userRole = resp[0].role;
+        localStorage.setItem('userRole', this.userRole);
         console.log(this.userRole)
         if (this.userRole === 'Admin') {
           this.router.navigate(['admin/home/dashboard']);
           this.ngxService.stop();
           this.snackbar.success('Login Successfully.', 'X');
         } else if (this.userRole === 'Developer' || this.userRole === 'Designer' || this.userRole === 'HR') {
-          this.router.navigate(['user/dashboard']);
+          this.router.navigate(['user/home/dashboard']);
           this.ngxService.stop();
           this.snackbar.success('Login Successfully.', 'X');
-        }else{
+        } else {
           this.snackbar.warning("Kindly register to access this system.", "X");
         }
+      },
+      (error: any) => {
+        this.ngxService.stop();
+        console.log(error);
+        this.snackbar.danger("An error occured. Kindly try again later.", "X");
       }
     );
     // this.loginService.loginUser(loginData).subscribe(
     //   (resp: any)=>{
     //     this.ngxService.stop()
-    //     console.log(resp)
+    //     console.log(resp);
+    //     console.log("The user is : ", resp[0]);
+    //     this.userRole = resp[0].role;
+    //     localStorage.setItem('userRole', this.userRole);
+    //     console.log(this.userRole)
+    //     if (this.userRole === 'Admin') {
+    //       this.router.navigate(['admin/home/dashboard']);
+    //       this.ngxService.stop();
+    //       this.snackbar.success('Login Successfully.', 'X');
+    //     } else if (this.userRole === 'Developer' || this.userRole === 'Designer' || this.userRole === 'HR') {
+    //       this.router.navigate(['user/home/dashboard']);
+    //       this.ngxService.stop();
+    //       this.snackbar.success('Login Successfully.', 'X');
+    //     }else{
+    //       this.snackbar.warning("Kindly register to access this system.", "X");
+    //     }
     //   },
     //   (error: any)=>{
     //     this.ngxService.stop();
-    //     console.log(error)
+    //     console.log(error);
+    //     this.snackbar.danger("An error occured. Kindly try again later.", "X");
     //   }
     // );
-    // if (this.loginForm.valid) {
-    //   var formData = this.loginForm.value;
-    //   console.log(this.loginForm.value);
-    //   this.router.navigate(['admin/home/dashboard']);
-    //   this.ngxService.stop();
-    //   this.snackbar.success('Login Successfully.', 'X');
-    // }
+
   }
 }

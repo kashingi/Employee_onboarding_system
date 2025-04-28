@@ -72,6 +72,10 @@ $my-theme: mat.define-theme(
   @include mat.tooltip-overrides((
     container-color: #92625f,
   ));
+
+  @include mat.menu-overrides((
+    container-color: white,
+  ));
   
 }
 

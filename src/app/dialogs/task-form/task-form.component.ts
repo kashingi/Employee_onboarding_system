@@ -46,7 +46,10 @@ export class TaskFormComponent implements OnInit {
   action: any = 'Add';
   responseMessage: any;
 
-  statuses = [{ name: 'Pending' }, { name: 'Completed' }];
+  statuses = [
+    { name: 'Pending' }, 
+    { name: 'Completed' }
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,

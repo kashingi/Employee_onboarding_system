@@ -23,7 +23,8 @@ export class UserService {
     return this.httpClient.post<any>(loginUrl, loginData);
   }
   public loginUser(loginData: any): Observable<any> {
-    const loginUserUlr = 'https://afbb-2c0f-fe38-2020-79ae-694d-eed7-6699-9ca.ngrok-free.app/api/auth/login';
+    const loginUserUlr = `${this.apiUrl}/api/account/auth/token`;
+
 
     return this.httpClient.post<any>(loginUserUlr, loginData);
   }
@@ -87,28 +88,28 @@ export class UserService {
   }
   
   //get loginIn user from the database
-  getLoggedInUser(userEmail: any): Observable<any> {
+  public getLoggedInUser(userEmail: any): Observable<any> {
     const userUrl = `${this.url}users?email=${userEmail}`;
 
     return this.httpClient.get<any[]>(userUrl);
   } 
 
   //Update user by email
-  updateUserByEmail(userId: any, updateData: any): Observable<any> {
+  public updateUserByEmail(userId: any, updateData: any): Observable<any> {
     const updateUrl = `${this.url}users/${userId}`;
 
     return this.httpClient.patch<any>(updateUrl, updateData);
   }
 
   //Update profile photo only
-  updatePhoto(userId: any, userProfile: any): Observable<any> {
+  public updatePhoto(userId: any, userProfile: any): Observable<any> {
     const profileUrl = `${this.url}users/${userId}`;
 
     return this.httpClient.patch<any>(profileUrl, userProfile);
   }
 
   //get loggedIn user
-  currentUser() {
+  public currentUser() {
     let userEmail = localStorage.getItem('loggedInEmail');
     // this.ngxService.start();
     this.getLoggedInUser(userEmail).subscribe(

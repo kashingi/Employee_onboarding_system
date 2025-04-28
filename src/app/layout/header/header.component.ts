@@ -18,28 +18,33 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
 
   user: any;
   profileImageUrl = '';
 
-  constructor (
+  constructor(
     private router: Router,
     private snackbar: SnackbarService,
     private dialog: MatDialog,
     private ngxService: NgxUiLoaderService,
     public userService: UserService
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.userService.currentUser();
   }
   //Open or navigate to your account
   openAccount() {
-    this.router.navigate(['admin/home/account'])
+
+    if (this.userService.Role === 'Admin') {
+      this.router.navigate(['admin/home/account'])
+    } else {
+      this.router.navigate(['user/home/account'])
+    }
   }
 
-  logout(){
+  logout() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       message: 'Logout',
@@ -52,7 +57,7 @@ export class HeaderComponent implements OnInit{
       this.router.navigate(['/']);
       this.snackbar.success("You logged out successfully.", "X")
     })
-  }  
+  }
 
-  
+
 }
