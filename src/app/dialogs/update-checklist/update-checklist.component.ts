@@ -33,7 +33,7 @@ export class UpdateChecklistComponent implements OnInit {
 
   onAddProduct = output();
   onEditProduct = output();
-  dialogAction = 'Add Admin Requirement';
+  dialogAction = 'Add';
   action = 'Add';
   responseMessage: any;
 
@@ -41,6 +41,8 @@ export class UpdateChecklistComponent implements OnInit {
     { name: 'Pending' },
     { name: 'Completed' }
   ];
+
+  type = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
@@ -56,21 +58,15 @@ export class UpdateChecklistComponent implements OnInit {
       requirement: ['', [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]]
     });
 
-    // if (this.dialogData.action === 'Edit') {
-    //   this.dialogAction = 'Edit';
-    //   this.action = 'Update';
-    //   this.taskForm.patchValue(this.dialogData.data);
-
-    //   this.taskForm.patchValue();
-    // }
-
-    if (this.dialogData.action === 'Add Requirement') {
-      this.dialogAction = 'Add';
-    } else if (this.dialogData.action === 'Add Developer Requirement') {
-      this.dialogAction = 'Add'
-    } else {
+    this.type = this.dialogData.type;
+    if (this.dialogData.action === 'Edit' && this.dialogData.data) {
+      const requirement = this.dialogData.data.field;
+      this.dialogAction = 'Edit';
+      this.action = 'Update';
+      this.addForm.patchValue({ requirement: requirement});
 
     }
+
   }
 
   //Implement your submit action here
@@ -83,6 +79,7 @@ export class UpdateChecklistComponent implements OnInit {
   }
 
   add() {
+    
     this.ngxService.start();
     const field = this.addForm.value.requirement;
     const payload = { field };

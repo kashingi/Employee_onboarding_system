@@ -61,14 +61,14 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let element" class="action-link">
-                <button mat-icon-button matTooltip="More Actions" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-                <!-- <button mat-icon-button (click)="handleEditAction(element)" class="visibility-icon">
+                <!-- <button mat-icon-button matTooltip="More Actions" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button> -->
+                <button mat-icon-button (click)="handleEditAction(element)" class="visibility-icon">
                     <mat-icon>visibility</mat-icon>
                 </button>
                 <button mat-icon-button (click)="handleDeleteAction(element)" class="delete-icon">
                     <mat-icon>delete</mat-icon>
-                </button> -->
-                <mat-menu #menu="matMenu">
+                </button>
+                <!-- <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="handleEditAction(element)" matTooltip="View Task">
                         <mat-icon style="color: #3f51b5">visibility</mat-icon>
                     </button>
@@ -78,7 +78,7 @@
                     <button mat-menu-item (click)="handleDeleteAction(element)" matTooltip="Delete Task">
                         <mat-icon style="color: red;">delete</mat-icon>
                     </button>
-                </mat-menu>
+                </mat-menu> -->
 
             </td>
         </ng-container>

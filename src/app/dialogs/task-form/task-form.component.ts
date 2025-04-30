@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -40,10 +40,10 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class TaskFormComponent implements OnInit {
   taskForm: any = FormGroup;
-  onAddProduct = new EventEmitter();
-  onEditProduct = new EventEmitter();
-  dialogAction: any = 'Add';
-  action: any = 'Add';
+  onAddProduct = output();
+  onEditProduct = output();
+  dialogAction = 'Add';
+  action = 'Add';
   responseMessage: any;
 
   statuses = [

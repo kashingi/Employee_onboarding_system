@@ -10,7 +10,7 @@
                     {{ requirement.field }}
                 </div>
                 <button mat-icon-button class="col-sm-2">
-                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Admin')">edit</mat-icon>
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Admin', requirement)">edit</mat-icon>
                 </button>
                 <button mat-icon-button class="col-sm-2">
                     <mat-icon style="color: red;" (click)="handleDeleteAction('Admin', requirement)">delete</mat-icon>
@@ -30,7 +30,7 @@
                     {{ requirement.field }}
                 </div>
                 <button mat-icon-button class="col-sm-2">
-                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Developer')">edit</mat-icon>
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Developer', requirement)">edit</mat-icon>
                 </button>
                 <button mat-icon-button class="col-sm-2">
                     <mat-icon style="color: red;" (click)="handleDeleteAction('Developer', requirement)">delete</mat-icon>
@@ -51,7 +51,7 @@
                     {{ requirement.field }}
                 </div>
                 <button mat-icon-button class="col-sm-2">
-                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Designer')">edit</mat-icon>
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Designer', requirement)">edit</mat-icon>
                 </button>
                 <button mat-icon-button class="col-sm-2">
                     <mat-icon style="color: red;" (click)="handleDeleteAction('Designer', requirement)">delete</mat-icon>
@@ -71,7 +71,7 @@
                     {{ requirement.field }}
                 </div>
                 <button mat-icon-button class="col-sm-2">
-                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('HR')">edit</mat-icon>
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('HR', requirement)">edit</mat-icon>
                 </button>
                 <button mat-icon-button class="col-sm-2">
                     <mat-icon style="color: red;" (click)="handleDeleteAction('HR', requirement)">delete</mat-icon>

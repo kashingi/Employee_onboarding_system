@@ -129,8 +129,11 @@ export class ChecklistComponent implements OnInit {
   //Add requirement here
   openAddDialog(type: 'Admin' | 'Developer' | 'Designer' | 'HR') {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { type };
-    dialogConfig.width = '340px';
+    dialogConfig.data = { 
+      type,
+      action: 'Add'
+    };
+    dialogConfig.width = '360px';
     dialogConfig.enterAnimationDuration = '300ms';
     const dialogRef = this.dialog.open(UpdateChecklistComponent, dialogConfig);
     this.router.events.subscribe(() => {
@@ -156,10 +159,11 @@ export class ChecklistComponent implements OnInit {
   }
 
   //Edit requirement here
-  openEditDialog(type: 'Admin' | 'Developer' | 'Designer' | 'HR') {
+  openEditDialog(type: 'Admin' | 'Developer' | 'Designer' | 'HR', requirement: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      data: type,
+      data: requirement,
+      type,
       action: 'Edit'
     };
     dialogConfig.width = '340px';
@@ -206,24 +210,24 @@ export class ChecklistComponent implements OnInit {
   }
 
   //Implement Delete user
-  deleteRequirement(type: 'Admin' | 'Developer' | 'Designer' | 'HR', requirement: any) {
-    console.log("Delete Id is : ", requirement);
+  deleteRequirement(type: string, id: string) {
+    console.log("Delete Id is : ", id);
     let response;
     switch (type) {
       case 'Admin':
-        response = this.reqService.deleteAdminRequirements(requirement.id);
+        response = this.reqService.deleteAdminRequirements(id);
         break;
 
       case 'Developer':
-        response = this.reqService.deleteDeveloperRequirements(requirement.id);
+        response = this.reqService.deleteDeveloperRequirements(id);
         break;
 
       case 'Designer':
-        response = this.reqService.deleteDesignerRequirements(requirement.id)
+        response = this.reqService.deleteDesignerRequirements(id)
         break;
 
       case 'HR':
-        response = this.reqService.deleteHRRequirements(requirement.id);
+        response = this.reqService.deleteHRRequirements(id);
         break;
 
       default:
@@ -233,35 +237,35 @@ export class ChecklistComponent implements OnInit {
 
     }
 
-    // response.subscribe(
-    //   {
-    //     next: (resp: any)=>{
-    //       this.ngxService.stop();
-    //       if (type === 'Admin') {
-    //         this.getAdminrequiremnts();
-    //       } else if (type === 'Developer') {
-    //         this.getDevRequiremnts();
-    //       }else if (type === 'Designer') {
-    //         this.getDesignerRequiremnts();
-    //       }else if (type === 'HR') {
-    //         this.getHrRequiremnts();
+    response.subscribe(
+      {
+        next: (resp: any)=>{
+          this.ngxService.stop();
+          if (type === 'Admin') {
+            this.getAdminrequiremnts();
+          } else if (type === 'Developer') {
+            this.getDevRequiremnts();
+          }else if (type === 'Designer') {
+            this.getDesignerRequiremnts();
+          }else if (type === 'HR') {
+            this.getHrRequiremnts();
           
             
-    //       }
-    //       this.snackbar.success(requirement.field +' deleted successfully.', 'X');
-    //     },
-    //     error: (error: any)=>{
-    //       this.ngxService.stop();
-    //     console.log(error);
-    //     if (error.error?.Message) {
-    //       this.responseMessage = error.error?.Message;
-    //     } else {
-    //       this.responseMessage = GolobalConstants.genericError;
-    //     }
-    //     this.snackbar.danger(this.responseMessage, GolobalConstants.error);
-    //     }
-    //   }
-    // );
+          }
+          this.snackbar.success('Requirement deleted successfully.', 'X');
+        },
+        error: (error: any)=>{
+          this.ngxService.stop();
+        console.log(error);
+        if (error.error?.Message) {
+          this.responseMessage = error.error?.Message;
+        } else {
+          this.responseMessage = GolobalConstants.genericError;
+        }
+        this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+        }
+      }
+    );
     // this.requirements.deleteUser(id).subscribe(
     //   (response: any) => {
     //     this.ngxService.stop();
