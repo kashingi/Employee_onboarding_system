@@ -50,7 +50,7 @@ export class TasksComponent implements OnInit {
     'action',
   ];
   dataSource: any;
-  responseMessage: any;
+  responseMessage = '';
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   users: any;

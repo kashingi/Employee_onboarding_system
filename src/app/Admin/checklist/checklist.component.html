@@ -6,9 +6,17 @@
         <div class="col-sm-3 requirement-box">
             <p class="text-center">Admin Requirements</p>
             <div class="row" *ngFor="let requirement of adminRequirements">
-                {{ requirement.field }}
+                <div class="col-sm-8">
+                    {{ requirement.field }}
+                </div>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Admin')">edit</mat-icon>
+                </button>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: red;" (click)="handleDeleteAction('Admin', requirement)">delete</mat-icon>
+                </button>
             </div>
-            
+
             <div class="row float-end">
                 <button mat-icon-button (click)="openAddDialog('Admin')" matTooltip="Add requirement">
                     <mat-icon>add_circle</mat-icon>
@@ -17,10 +25,19 @@
         </div>
         <div class="col-sm-3 requirement-box">
             <p class="text-center">Developer Requiremnts</p>
-            <div class="row mx-1" *ngFor="let requirement of devRequirements">
-                {{ requirement.field }}
+            <div class="row" *ngFor="let requirement of devRequirements">
+                <div class="col-sm-8">
+                    {{ requirement.field }}
+                </div>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Developer')">edit</mat-icon>
+                </button>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: red;" (click)="handleDeleteAction('Developer', requirement)">delete</mat-icon>
+                </button>
             </div>
-            
+
+
             <div class="row float-end">
                 <button mat-icon-button (click)="openAddDialog('Developer')" matTooltip="Add requirement">
                     <mat-icon>add_circle</mat-icon>
@@ -29,10 +46,18 @@
         </div>
         <div class="col-sm-3 requirement-box">
             <p class="text-center">Designer Requiremnts</p>
-            <div class="row mx-1" *ngFor="let requirement of designerRequirements">
-                {{ requirement.field }}
+            <div class="row" *ngFor="let requirement of designerRequirements">
+                <div class="col-sm-8">
+                    {{ requirement.field }}
+                </div>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('Designer')">edit</mat-icon>
+                </button>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: red;" (click)="handleDeleteAction('Designer', requirement)">delete</mat-icon>
+                </button>
             </div>
-            
+
             <div class="row float-end">
                 <button mat-icon-button (click)="openAddDialog('Designer')" matTooltip="Add requirement">
                     <mat-icon>add_circle</mat-icon>
@@ -41,10 +66,18 @@
         </div>
         <div class="col-sm-3 requirement-box">
             <p class="text-center">HR Requirements</p>
-            <div class="row mx-1" *ngFor="let requirement of hrRequirements">
-                {{ requirement.field }} 
+            <div class="row" *ngFor="let requirement of hrRequirements">
+                <div class="col-sm-8">
+                    {{ requirement.field }}
+                </div>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: #3f51b5;" (click)="openEditDialog('HR')">edit</mat-icon>
+                </button>
+                <button mat-icon-button class="col-sm-2">
+                    <mat-icon style="color: red;" (click)="handleDeleteAction('HR', requirement)">delete</mat-icon>
+                </button>
             </div>
-            
+
             <div class="row float-end">
                 <button mat-icon-button (click)="openAddDialog('HR')" matTooltip="Add requirement">
                     <mat-icon>add_circle</mat-icon>

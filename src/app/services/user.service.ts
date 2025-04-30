@@ -138,17 +138,31 @@ export class UserService {
     );
   }
 
-  //add common requirement into the database
+  //add admin requirement into the database
   public addAdminRequirements(reqData: any): Observable<any> {
     const reqUrl = `${this.baseUrl}adminRequirements`;
 
     return this.httpClient.post<any>(reqUrl, reqData);
   }
-  //get common user onboarding requiremnts
+  //get admin user onboarding requiremnts
   public getAdminRequirements(): Observable<any[]> {
     const adminRequirements = `${this.baseUrl}adminRequirements`;
 
     return this.httpClient.get<any[]>(adminRequirements);
+  }
+
+   //update admin user onboarding requiremnts
+   public updateAdminRequirements(reqId: string, reqData: any): Observable<any[]> {
+    const adminRequirements = `${this.baseUrl}adminRequirements/${reqId}`;
+
+    return this.httpClient.patch<any[]>(adminRequirements, reqData);
+  }
+
+   //Delete admin user onboarding requiremnts
+   public deleteAdminRequirements(reqId: string): Observable<any[]> {
+    const deleteUrl = `${this.baseUrl}adminRequirements/${reqId}`;
+
+    return this.httpClient.delete<any[]>(deleteUrl);
   }
 
   //add developer requirement into the database
@@ -164,6 +178,20 @@ export class UserService {
     return this.httpClient.get<any[]>(developerRequirements);
   }
 
+  //update developer onboarding requiremnts
+  public updateDeveloperRequirements(reqId: string, updateData: any): Observable<any[]> {
+    const updateUrl = `${this.baseUrl}developerRequirements/${reqId}`;
+
+    return this.httpClient.patch<any[]>(updateUrl, updateData);
+  }
+
+  //delete developer onboarding requiremnts
+  public deleteDeveloperRequirements(reqId: string): Observable<any[]> {
+    const deleteUrl = `${this.baseUrl}developerRequirements/${reqId}`;
+
+    return this.httpClient.delete<any[]>(deleteUrl);
+  }
+
   public addDesignerRequirements(reqData: any): Observable<any> {
     const reqUrl = `${this.baseUrl}designerRequirements`;
 
@@ -174,6 +202,20 @@ export class UserService {
     const commonRequirements = `${this.baseUrl}designerRequirements`;
 
     return this.httpClient.get<any[]>(commonRequirements);
+  }
+
+  //update common user onboarding requiremnts
+  public updateDesignerRequirements(reqId: string, updateData: any): Observable<any[]> {
+    const updateUrl = `${this.baseUrl}designerRequirements/${reqId}`;
+
+    return this.httpClient.patch<any[]>(updateUrl, updateData);
+  }
+
+  //delete common user onboarding requiremnts
+  public deleteDesignerRequirements(reqId: string): Observable<any[]> {
+    const deteleUrl = `${this.baseUrl}designerRequirements/${reqId}`;
+
+    return this.httpClient.delete<any[]>(deteleUrl);
   }
 
   //Add HR onboarding requirements
@@ -187,5 +229,19 @@ export class UserService {
     const hrRequirements = `${this.baseUrl}hrRequirements`;
 
     return this.httpClient.get<any[]>(hrRequirements);
+  }
+
+  //update common user onboarding requiremnts
+  public updateHRRequirements(reqId: string, updateData: any): Observable<any[]> {
+    const updateUrl = `${this.baseUrl}hrRequirements/${reqId}`;
+
+    return this.httpClient.patch<any[]>(updateUrl, updateData);
+  }
+
+  //delete common user onboarding requiremnts
+  public deleteHRRequirements(reqId: string): Observable<any[]> {
+    const deleteUrl = `${this.baseUrl}hrRequirements/${reqId}`;
+
+    return this.httpClient.delete<any[]>(deleteUrl);
   }
 }

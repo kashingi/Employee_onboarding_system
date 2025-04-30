@@ -64,7 +64,7 @@ export class UpdateChecklistComponent implements OnInit {
     //   this.taskForm.patchValue();
     // }
 
-    if (this.dialogData.action === 'Add Admin Requirement') {
+    if (this.dialogData.action === 'Add Requirement') {
       this.dialogAction = 'Add';
     } else if (this.dialogData.action === 'Add Developer Requirement') {
       this.dialogAction = 'Add'

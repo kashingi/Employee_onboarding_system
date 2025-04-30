@@ -14,6 +14,9 @@ import { UpdateChecklistComponent } from '../../dialogs/update-checklist/update-
 import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SnackbarService } from '../../services/snackbar.service';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { GolobalConstants } from '../../Shared/global-constants';
 
 @Component({
   selector: 'app-checklist',
@@ -26,7 +29,7 @@ import { SnackbarService } from '../../services/snackbar.service';
     FormsModule,
     CommonModule,
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './checklist.component.html',
   styleUrl: './checklist.component.scss'
@@ -38,14 +41,18 @@ export class ChecklistComponent implements OnInit {
   devRequirements: any[] = [];
   designerRequirements: any[] = [];
   hrRequirements: any[] = [];
-  element: any;
+  responseMessage = '';
+
+  typeOfUser: 'admin' | 'developer' | 'designer' | 'hr' | undefined;
+  itemToBeDeleted: { id: string; field: string; } | undefined
 
   constructor(
-    private requirements: UserService,
+    private reqService: UserService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private ngxService: NgxUiLoaderService
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +67,7 @@ export class ChecklistComponent implements OnInit {
 
   //get common user onboarding requirements from the database
   getAdminrequiremnts() {
-    this.requirements.getAdminRequirements().subscribe(
+    this.reqService.getAdminRequirements().subscribe(
       {
         next: (resp: any) => {
           console.log("Admin requirements : ", resp);
@@ -75,7 +82,7 @@ export class ChecklistComponent implements OnInit {
 
   //get developer requirements
   getDevRequiremnts() {
-    this.requirements.getDeveloperRequirements().subscribe(
+    this.reqService.getDeveloperRequirements().subscribe(
       {
         next: (resp: any) => {
           console.log("Dev requirements : ", resp);
@@ -90,7 +97,7 @@ export class ChecklistComponent implements OnInit {
 
   //get designer requirements
   getDesignerRequiremnts() {
-    this.requirements.getDesignerRequirements().subscribe(
+    this.reqService.getDesignerRequirements().subscribe(
       {
         next: (resp: any) => {
           console.log("Designer requirements : ", resp);
@@ -105,7 +112,7 @@ export class ChecklistComponent implements OnInit {
 
   //get HR requirements
   getHrRequiremnts() {
-    this.requirements.getHRRequirements().subscribe(
+    this.reqService.getHRRequirements().subscribe(
       {
         next: (resp: any) => {
           console.log("HR requirements : ", resp);
@@ -119,7 +126,7 @@ export class ChecklistComponent implements OnInit {
   }
 
 
-  //Add user here
+  //Add requirement here
   openAddDialog(type: 'Admin' | 'Developer' | 'Designer' | 'HR') {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { type };
@@ -132,19 +139,145 @@ export class ChecklistComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onAddProduct.subscribe(
       (response) => {
-       if (type === 'Admin') {
-        this.getAdminrequiremnts();
-       } else if (type === 'Developer') {
-        this.getDevRequiremnts();
-       }if (type === 'Designer') {
-        this.getDesignerRequiremnts();
-       } else if (type === 'HR') {
-        this.getHrRequiremnts();
-       }else{
-        this.snackbar.warning("Select Role in to update requirement.", "X");
-       }
+        if (type === 'Admin') {
+          this.getAdminrequiremnts();
+        } else if (type === 'Developer') {
+          this.getDevRequiremnts();
+        } if (type === 'Designer') {
+          this.getDesignerRequiremnts();
+        } else if (type === 'HR') {
+          this.getHrRequiremnts();
+        } else {
+          this.snackbar.warning("Select Role in to update requirement.", "X");
+        }
       }
     );
 
+  }
+
+  //Edit requirement here
+  openEditDialog(type: 'Admin' | 'Developer' | 'Designer' | 'HR') {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      data: type,
+      action: 'Edit'
+    };
+    dialogConfig.width = '340px';
+    dialogConfig.enterAnimationDuration = '300ms';
+    const dialogRef = this.dialog.open(UpdateChecklistComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onAddProduct.subscribe(
+      (response) => {
+        if (type === 'Admin') {
+          this.getAdminrequiremnts();
+        } else if (type === 'Developer') {
+          this.getDevRequiremnts();
+        } if (type === 'Designer') {
+          this.getDesignerRequiremnts();
+        } else if (type === 'HR') {
+          this.getHrRequiremnts();
+        } else {
+          this.snackbar.warning("Select Role in to update requirement.", "X");
+        }
+      }
+    );
+
+  }
+
+  //HAndle delete user action
+  handleDeleteAction(type: 'Admin' | 'Developer' | 'Designer' | 'HR', requirement: any) {
+    console.log("Id is : ", requirement.id)
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: ' delete ' + requirement.field,
+      confirmation: true,
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
+      (response) => {
+        this.ngxService.start();
+        this.deleteRequirement(type, requirement.id);
+        dialogRef.close();
+      }
+    );
+  }
+
+  //Implement Delete user
+  deleteRequirement(type: 'Admin' | 'Developer' | 'Designer' | 'HR', requirement: any) {
+    console.log("Delete Id is : ", requirement);
+    let response;
+    switch (type) {
+      case 'Admin':
+        response = this.reqService.deleteAdminRequirements(requirement.id);
+        break;
+
+      case 'Developer':
+        response = this.reqService.deleteDeveloperRequirements(requirement.id);
+        break;
+
+      case 'Designer':
+        response = this.reqService.deleteDesignerRequirements(requirement.id)
+        break;
+
+      case 'HR':
+        response = this.reqService.deleteHRRequirements(requirement.id);
+        break;
+
+      default:
+        this.ngxService.stop();
+        this.snackbar.warning("Please specify role to delete requirement.", "X");
+        return;
+
+    }
+
+    // response.subscribe(
+    //   {
+    //     next: (resp: any)=>{
+    //       this.ngxService.stop();
+    //       if (type === 'Admin') {
+    //         this.getAdminrequiremnts();
+    //       } else if (type === 'Developer') {
+    //         this.getDevRequiremnts();
+    //       }else if (type === 'Designer') {
+    //         this.getDesignerRequiremnts();
+    //       }else if (type === 'HR') {
+    //         this.getHrRequiremnts();
+          
+            
+    //       }
+    //       this.snackbar.success(requirement.field +' deleted successfully.', 'X');
+    //     },
+    //     error: (error: any)=>{
+    //       this.ngxService.stop();
+    //     console.log(error);
+    //     if (error.error?.Message) {
+    //       this.responseMessage = error.error?.Message;
+    //     } else {
+    //       this.responseMessage = GolobalConstants.genericError;
+    //     }
+    //     this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+    //     }
+    //   }
+    // );
+    // this.requirements.deleteUser(id).subscribe(
+    //   (response: any) => {
+    //     this.ngxService.stop();
+
+    //     this.snackbar.success('User deleted successfully.', 'X');
+    //   },
+    //   (error: any) => {
+    //     this.ngxService.stop();
+    //     console.log(error);
+    //     if (error.error?.Message) {
+    //       this.responseMessage = error.error?.Message;
+    //     } else {
+    //       this.responseMessage = GolobalConstants.genericError;
+    //     }
+    //     this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+    //   }
+    // );
   }
 }
