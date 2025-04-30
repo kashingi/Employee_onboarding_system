@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SnackbarService } from '../../services/snackbar.service';
@@ -7,7 +7,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { GolobalConstants } from '../../Shared/global-constants';
-import { UserFormComponent } from '../../dialogs/user-form/user-form.component';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 
 //Imported modules
@@ -18,9 +17,31 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ManageUsersComponent } from '../../dialogs/manage-users/manage-users.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatStepperIntl } from '@angular/material/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
+
+
+@Injectable()
+export class StepperIntl extends MatStepperIntl {
+  override optionalLabel = 'Optional Label';
+}
+
 
 @Component({
   selector: 'app-users',
+  providers: [
+    {
+      provide: MatStepperIntl,
+      useClass: StepperIntl,
+    },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -31,15 +52,23 @@ import { MatButtonModule } from '@angular/material/button';
     MatPaginatorModule,
     MatTableModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatProgressBarModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'email', 'educationLevel', 'department', 'role', 'userStatus', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'email', 'department', 'role', 'userStatus', 'progress', 'action'];
   dataSource: any;
-  responseMessage: any;
+  responseMessage = '';
+
+  mode: ProgressBarMode = 'buffer';
+  value1 = 95;
+  
+
+
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   constructor(
@@ -48,7 +77,7 @@ export class UsersComponent implements OnInit {
     private snackbar: SnackbarService,
     private router: Router,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -59,7 +88,7 @@ export class UsersComponent implements OnInit {
     this.ngxService.start();
     this.userService.getUsers().subscribe(
       (resp: any) => {
-        console.log("All the Users: ",resp)
+        console.log("All the Users: ", resp)
         this.ngxService.stop();
         this.dataSource = new MatTableDataSource(resp);
         this.dataSource.paginator = this.paginator;
@@ -85,7 +114,7 @@ export class UsersComponent implements OnInit {
     };
     dialogConfig.width = '840px';
     dialogConfig.enterAnimationDuration = '300ms';
-    const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ManageUsersComponent, dialogConfig);
     this.router.events.subscribe(() => {
       dialogRef.close();
     });
@@ -107,7 +136,7 @@ export class UsersComponent implements OnInit {
     };
     dialogConfig.width = '850px';
     dialogConfig.enterAnimationDuration = '300ms';
-    const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ManageUsersComponent, dialogConfig);
     this.router.events.subscribe(() => {
       dialogRef.close();
     });

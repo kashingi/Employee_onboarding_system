@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @Component({
@@ -32,7 +33,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatPaginatorModule,
     MatButtonModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatToolbarModule
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',

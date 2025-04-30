@@ -12,6 +12,7 @@ import { UserHomeComponent } from './User/user-home/user-home.component';
 import { MyResourcesComponent } from './User/my-resources/my-resources.component';
 import { MyTasksComponent } from './User/my-tasks/my-tasks.component';
 import { SettingComponent } from './Admin/setting/setting.component';
+import { ChecklistComponent } from './Admin/checklist/checklist.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'users', component: UsersComponent, canActivate: [GuardService] },
             { path: 'tasks', component: TasksComponent, canActivate: [GuardService] },
+            { path: 'checklist', component: ChecklistComponent, canActivate: [GuardService]},
             { path: 'resources', component: ResourcesComponent, canActivate: [GuardService] },
             { path: 'account', component: AccountComponent, canActivate: [GuardService] },
             { path: 'setting', component: SettingComponent, canActivate: [GuardService]}

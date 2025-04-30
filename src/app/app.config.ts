@@ -12,6 +12,8 @@ import {
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, SPINNER } from 'ngx-ui-loader';
+import { IEnvironment, ENVIRONMENT } from './tokens/environment';
+import { environment } from '../environments/environment.development';
 
 
 
@@ -37,6 +39,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideClientHydration(withEventReplay()),
     provideNativeDateAdapter(),
-    importProvidersFrom(NgxUiLoaderModule.forRoot(ngxUiLoaderConfig), MatStepperModule)
+    importProvidersFrom(NgxUiLoaderModule.forRoot(ngxUiLoaderConfig), MatStepperModule),
+{
+  provide: ENVIRONMENT,
+  useValue: {
+    baseUrl: environment.baseUrl
+  } as IEnvironment
+}
   ],
 };

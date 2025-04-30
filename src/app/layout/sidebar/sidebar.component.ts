@@ -31,9 +31,9 @@ export class SidebarComponent implements OnInit{
   }
   menuItems = signal<MenuItems[]>([
     { icon: 'home', label: 'Home', route: '/admin/home/dashboard' },
-    { icon: 'group', label: 'Employees', route: '/admin/home/users' },
+    { icon: 'group', label: 'Users', route: '/admin/home/users' },
     { icon: 'pending_actions', label: 'Tasks', route: '/admin/home/tasks' },
-    { icon: 'playlist_add_check', label: 'Check List', route: '/admin/home/resources' },
+    { icon: 'playlist_add_check', label: 'Check List', route: '/admin/home/checklist' },
     { icon: 'list', label: 'Resources', route: '/admin/home/resources' },
     { icon: 'settings', label: 'Settings', route: '/user/home/settings' }
   ]);

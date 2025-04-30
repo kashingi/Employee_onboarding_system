@@ -1,0 +1,55 @@
+<div class="onboarding-checklist">
+    <div class="row">
+        <h3 class="text-center">User onboarding checklist</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 requirement-box">
+            <p class="text-center">Admin Requirements</p>
+            <div class="row" *ngFor="let requirement of adminRequirements">
+                {{ requirement.field }}
+            </div>
+            
+            <div class="row float-end">
+                <button mat-icon-button (click)="openAddDialog('Admin')" matTooltip="Add requirement">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-3 requirement-box">
+            <p class="text-center">Developer Requiremnts</p>
+            <div class="row mx-1" *ngFor="let requirement of devRequirements">
+                {{ requirement.field }}
+            </div>
+            
+            <div class="row float-end">
+                <button mat-icon-button (click)="openAddDialog('Developer')" matTooltip="Add requirement">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-3 requirement-box">
+            <p class="text-center">Designer Requiremnts</p>
+            <div class="row mx-1" *ngFor="let requirement of designerRequirements">
+                {{ requirement.field }}
+            </div>
+            
+            <div class="row float-end">
+                <button mat-icon-button (click)="openAddDialog('Designer')" matTooltip="Add requirement">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-3 requirement-box">
+            <p class="text-center">HR Requirements</p>
+            <div class="row mx-1" *ngFor="let requirement of hrRequirements">
+                {{ requirement.field }} 
+            </div>
+            
+            <div class="row float-end">
+                <button mat-icon-button (click)="openAddDialog('HR')" matTooltip="Add requirement">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

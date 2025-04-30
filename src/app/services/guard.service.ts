@@ -1,11 +1,14 @@
-import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuardService {
+  #platformId = inject(PLATFORM_ID);
+  isBrowser = isPlatformBrowser(this.#platformId)
 
   constructor( 
     private router: Router,
@@ -26,6 +29,7 @@ export class GuardService {
   }
 
   public isAuthenticated(): boolean{
+    if(!this.isBrowser) return false;
     const token = localStorage.getItem('loggedInEmail');
     if (!token) {
       this.router.navigate(['/']);

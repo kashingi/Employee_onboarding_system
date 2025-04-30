@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
     <div class="toolbar">
         <b><span>Manage Tasks</span></b>
         <span class="spacer"></span>
@@ -6,7 +6,17 @@
             <mat-icon>add_circle</mat-icon> Task
         </button>
     </div>
-</mat-card>
+</mat-card> -->
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayout="row">
+        <span> Manage Tasks</span>
+        <span class="spacer"></span>
+        <button mat-raised-button (click)="handleAddAction()">
+            <mat-icon>add_circle</mat-icon> Task
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
 
 <hr />
 <mat-card>

@@ -1,21 +1,21 @@
-<mat-card>
-    <div class="toolbar">
-        <b><span>Manage Employees</span></b>
-        <span class="spacer"></span>
-        <button mat-raised-button (click)="handleAddAction()">
-            <mat-icon>add_circle</mat-icon> Employee
-        </button>
-    </div>
-</mat-card>
+<mat-toolbar>
+    <b><span>Manage Users</span></b>
+    <span class="example-spacer"></span>
+    <button mat-raised-button (click)="handleAddAction()">
+        <mat-icon>add_circle</mat-icon> User
+    </button>
+</mat-toolbar>
+
 
 <hr />
-<mat-card>
-    <mat-form-field appearance="fill">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyfilter($event)" #input />
-    </mat-form-field>
-</mat-card>
-<hr />
+
+<mat-form-field appearance="fill" class="w-25 float-end mt-2">
+    <!-- <mat-label>search</mat-label> -->
+    <input matInput (keyup)="applyfilter($event)" #input matSuffix />
+    <mat-icon style="color: #3f51b5">search</mat-icon>
+</mat-form-field>
+
+<hr class="w-100" />
 <div class="responsive-table">
     <table mat-table [dataSource]="dataSource" class="mat-cell">
         <ng-container matColumnDef="id">
@@ -33,11 +33,6 @@
             <td mat-cell *matCellDef="let element">{{ element.email }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="educationLevel">
-            <th mat-header-cell *matHeaderCellDef>Education</th>
-            <td mat-cell *matCellDef="let element">{{ element.educationLevel }}</td>
-        </ng-container>
-
         <ng-container matColumnDef="department">
             <th mat-header-cell *matHeaderCellDef>Department</th>
             <td mat-cell *matCellDef="let element">{{ element.department }}</td>
@@ -51,6 +46,15 @@
         <ng-container matColumnDef="userStatus">
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let element">{{ element.userStatus }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="progress">
+            <th mat-header-cell *matHeaderCellDef>Onboard Progress</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-progress-bar class="example-margin" [mode]="mode" [value]="value1">
+                </mat-progress-bar>
+              </td>
+            
         </ng-container>
 
         <ng-container matColumnDef="action">

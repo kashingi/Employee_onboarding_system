@@ -30,8 +30,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class LoginComponent implements OnInit {
   hide = true;
   loginForm: any = FormGroup;
-  resposeMessage: any;
-  userRole: any;
+  resposeMessage: string = '';
+  userRole: string = '';
+
 
   constructor(
     private formBuilder: FormBuilder,

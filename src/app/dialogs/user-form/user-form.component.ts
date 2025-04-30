@@ -31,14 +31,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperIntl, MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  ProgressBarMode,
-  MatProgressBarModule,
-} from '@angular/material/progress-bar';
+import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Injectable()
 export class StepperIntl extends MatStepperIntl {
-  // the default optional label text, if unspecified is "Optional"
   override optionalLabel = 'Optional Label';
 }
 
