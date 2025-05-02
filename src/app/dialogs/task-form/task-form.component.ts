@@ -51,6 +51,8 @@ export class TaskFormComponent implements OnInit {
     { name: 'Completed' }
   ];
 
+  users: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private ngxService: NgxUiLoaderService,
@@ -66,9 +68,13 @@ export class TaskFormComponent implements OnInit {
       taskName: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
       invited: [null, [Validators.required]],
       date: [null, [Validators.required]],
-      status: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)],
-      ],
+      assignedTo: [''],
+      status: ['Pending'],
     });
+
+    this.getAllUsers();
+
+
     if (this.dialogData.action === 'Edit') {
       this.dialogAction = 'Edit';
       this.action = 'Update';
@@ -84,6 +90,28 @@ export class TaskFormComponent implements OnInit {
         date: parsedDate
       });
     }
+  }
+
+   //call get all users function from users service
+   getAllUsers() {
+    this.ngxService.start();
+    this.userService.getUsers().subscribe(
+      (resp: any) => {
+        console.log("All the Users: ", resp)
+        this.ngxService.stop();
+        this.users = resp;
+      },
+      (error: any) => {
+        this.ngxService.stop();
+        console.log(error);
+        if (error.error?.Message) {
+          this.responseMessage = error.error?.Message;
+        } else {
+          this.responseMessage = GolobalConstants.genericError;
+        }
+        this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+      }
+    );
   }
 
   //Implement your submit action here
@@ -134,6 +162,7 @@ export class TaskFormComponent implements OnInit {
       taskName: formData.taskName,
       invited: formData.invited,
       date: this.datePipe.transform(formData.date, 'dd-MM-yyyy'),
+      assignedTo: formData.assignedTo,
       status: formData.status,
     };
     console.log(taskId, updateData);

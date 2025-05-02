@@ -31,7 +31,7 @@ export class SideNavComponent implements OnInit {
   menuItems = signal<MenuItems[]>([
     { icon: 'home', label: 'Home', route: '/user/home/dashboard' },
 
-    { icon: 'playlist_add_check', label: 'My Tasks', route: '/user/home/my-tasks' },
+    { icon: 'task', label: 'My Tasks', route: '/user/home/my-tasks' },
     { icon: 'list', label: 'Resources', route: '/user/home/my-resources' },
     { icon: 'settings', label: 'Settings', route: '/user/home/setting' }
   ]);

@@ -37,12 +37,10 @@ export class ManageUsersComponent implements OnInit {
   userForm = this.#fb.group({
     name: ['', [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
     email: ['', [Validators.required, Validators.pattern(GolobalConstants.emailRegex)]],
-    department: ['', [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
-    role: ['', [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
-    userStatus: ['Inactive', Validators.required],
-    password: ['', [Validators.required, Validators.pattern(GolobalConstants.passwordRegex)],
-
-    ],
+    department: [''],
+    role: [''],
+    userStatus: ['Inactive'],
+    password: [''],
   });
   ;
 
@@ -118,7 +116,7 @@ export class ManageUsersComponent implements OnInit {
           this.dialogRef.close();
           this.ngxService.stop();
           this.onAddProduct.emit();
-          this.snackbar.success('Task added successfully.', 'X');
+          this.snackbar.success('User added successfully.', 'X');
         },
         error: (error) => {
           console.log(error);

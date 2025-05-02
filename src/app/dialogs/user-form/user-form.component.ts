@@ -32,6 +32,7 @@ import { MatStepperIntl, MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
+import { output } from '@angular/core';
 
 @Injectable()
 export class StepperIntl extends MatStepperIntl {
@@ -71,13 +72,10 @@ export class StepperIntl extends MatStepperIntl {
 })
 export class UserFormComponent implements OnInit {
   userForm: any = FormGroup;
-  firstFormGroup: any = FormGroup;
-  secondFormGroup: any = FormGroup;
-  thirdFormGroup: any = FormGroup;
-  onAddProduct = new EventEmitter();
-  onEditProduct = new EventEmitter();
-  dialogAction: any = 'Add';
-  action: any = 'Add';
+  onAddProduct = output();
+  onEditProduct = output();
+  dialogAction = 'Add';
+  action = 'Add';
   responseMessage: any;
   roles: any = [];
   selectedCV: File | null = null;

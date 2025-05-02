@@ -65,7 +65,7 @@ export class UsersComponent implements OnInit {
   responseMessage = '';
 
   mode: ProgressBarMode = 'buffer';
-  value1 = 95;
+  value1 = 65;
   
 
 

@@ -126,32 +126,77 @@ export class UpdateChecklistComponent implements OnInit {
 
   edit() {
     let taskId = this.dialogData.data.id;
-    let formData = this.addForm.value;
-    let updateData = {
-      taskName: formData.taskName,
-      invited: formData.invited,
-      status: formData.status,
-    };
-    console.log(taskId, updateData);
-    this.checklistService.updateTask(taskId, updateData).subscribe(
-      {
-        next: (response: any) => {
-          this.dialogRef.close();
-          this.onEditProduct.emit();
-          this.responseMessage = response.Message;
-          this.snackbar.success('Task updated successfully.', 'X');
-        },
-        error: (error) => {
-          console.log(error);
-          if (error.error?.error) {
-            this.responseMessage = error.error?.Message;
-          } else {
-            this.responseMessage = GolobalConstants.genericError;
-          }
-          this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+    // let formData = this.addForm.value;
+    // let updateData = {
+    //   taskName: formData.taskName,
+    //   invited: formData.invited,
+    //   status: formData.status,
+    // };
+    // console.log(taskId, updateData);
+    let reqId = this.dialogData.data.id;
+    const field = this.addForm.value.requirement;
+    const payload = { field };
+
+    // pick correct service call:
+    console.log("Field : ", field, reqId)
+    let response;
+    switch (this.dialogData.type) {
+      case 'Admin':
+        response = this.checklistService.updateAdminRequirements(reqId, payload);
+        break;
+      case 'Developer':
+        response = this.checklistService.updateDeveloperRequirements(reqId ,payload);
+        break;
+      case 'Designer':
+        response = this.checklistService.updateDesignerRequirements(reqId ,payload);
+        break;
+      case 'HR':
+        response = this.checklistService.updateHRRequirements(reqId, payload);
+        break;
+    }
+
+    response!.subscribe({
+      next: () => {
+        this.dialogRef.close();
+        this.onAddProduct.emit();
+        this.snackbar.success(field + ' updated successfully.', 'X');
+        this.ngxService.stop();
+      },
+      error: (error: any) => {
+        console.error(error);
+        this.snackbar.danger('Could not save' + field + ' try again later.', 'X');
+        this.ngxService.stop();
+        if (error.error?.error) {
+          this.responseMessage = error.error?.Message;
+        } else {
+          this.responseMessage = GolobalConstants.genericError;
         }
+        this.snackbar.danger(this.responseMessage, GolobalConstants.error);
       }
-    );
+    });
+
+
+  //   this.checklistService.updateTask(taskId, updateData).subscribe(
+  //     {
+  //       next: (response: any) => {
+  //         this.dialogRef.close();
+  //         this.onEditProduct.emit();
+  //         this.responseMessage = response.Message;
+  //         this.snackbar.success('Task updated successfully.', 'X');
+  //       },
+  //       error: (error) => {
+  //         console.log(error);
+  //         if (error.error?.error) {
+  //           this.responseMessage = error.error?.Message;
+  //         } else {
+  //           this.responseMessage = GolobalConstants.genericError;
+  //         }
+  //         this.snackbar.danger(this.responseMessage, GolobalConstants.error);
+  //       }
+  //     }
+  //   );
+
+
 
   }
 }

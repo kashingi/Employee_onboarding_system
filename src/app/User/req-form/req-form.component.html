@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row fxLayout="row">
-        <span>{{ dialogData.action }} {{ type }} reqquirements</span>
+        <span>{{ dialogData.action }} {{ dialogData.data}} </span>
         <span class="spacer"></span>
         <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
             <mat-icon>close</mat-icon>
@@ -10,13 +10,13 @@
 
 <mat-dialog-content class="mat-typography">
     <mat-dialog-content>
-        <form [formGroup]="addForm">
+        <form [formGroup]="reqForm">
             <mat-form-field appearance="fill" class="w-100">
-                <mat-label>Requirement</mat-label>
+                <mat-label> {{ dialogData.data }} </mat-label>
                 <input matInput formControlName="requirement" required>
-                <mat-error *ngIf="addForm.controls.requirement.touched && addForm.controls.requirement.invalid">
-                    <span *ngIf="addForm.controls.requirement.errors.required">Requirement name is mandatory</span>
-                    <span *ngIf="addForm.controls.requirement.errors.pattern">Requirement name is invalid</span>
+                <mat-error *ngIf="reqForm.controls.requirement.touched && reqForm.controls.requirement.invalid">
+                    <span *ngIf="reqForm.controls.requirement.errors.required">Requirement name is mandatory</span>
+                    <span *ngIf="reqForm.controls.requirement.errors.pattern">Requirement name is invalid</span>
                 </mat-error>
             </mat-form-field>
         </form>
@@ -26,7 +26,7 @@
 
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" [disabled]="!(addForm.valid && addForm.dirty)" (click)="handleSubmit()">
+    <button mat-raised-button color="primary" [disabled]="!(reqForm.valid && reqForm.dirty)" (click)="addRequirement()">
         <mat-icon>add_circle</mat-icon>{{action}}
     </button>
 </mat-dialog-actions>

@@ -40,7 +40,7 @@ export class UserService {
   }
 
   //Update user in the database
-  public updateUser(userId: number, userData: any): Observable<any> {
+  public updateUser(userId: any, userData: any): Observable<any> {
     const updateUrl = `${this.baseUrl}users/${userId}`;
 
     return this.httpClient.patch<any>(updateUrl, userData);
@@ -94,7 +94,7 @@ export class UserService {
   public getLoggedInUser(userEmail: any): Observable<any> {
     const userUrl = `${this.baseUrl}users?email=${userEmail}`;
 
-    return this.httpClient.get<any[]>(userUrl);
+    return this.httpClient.get<any>(userUrl);
   }
 
   //Update user by email

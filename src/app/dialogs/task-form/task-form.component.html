@@ -38,11 +38,20 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" *ngIf="dialogData.action ==='Edit'">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status">
                 <mat-option *ngFor="let status of statuses" [value]="status.name">
                     {{ status.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="dialogData.action === 'Edit'">
+            <mat-label>Assign To</mat-label>
+            <mat-select formControlName="assignedTo">
+                <mat-option *ngFor="let user of users" [value]="user.name">
+                    {{ user.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>

@@ -1,48 +1,60 @@
 <div class="card" style="width: 98%;" *ngIf="userService.user">
     <div class="row card-title d-flex justify-content-between">
         <h6 class="col-sm-8 mt-2 mx-3">Welcome {{userService.user?.name}} </h6>
-        <button mat-icon-button class="mx-3 col-sm-4" matTooltip="Update Details" (click)="handleEditAction(userService.user)"><mat-icon>add_circle</mat-icon></button>
+        <button mat-icon-button class="mx-3 col-sm-4" matTooltip="Update Details"
+            (click)="handleEditAction(userService.user)"><mat-icon>add_circle</mat-icon></button>
     </div>
     <div class="row card-body">
         <div class="col-sm-2">
-            <img *ngIf="userService.profileImageUrl" [src]="userService.profileImageUrl" alt="Profile Photo" class="img-fluid rounded-circle" matTooltip="Update Profile" (click)="fileInput.click()"/>
-            <input type="file" #fileInput hidden (change)="onPhotoSelected($event)" accept="image/*"> 
-            
+            <img *ngIf="userService.profileImageUrl" [src]="userService.profileImageUrl" alt="Profile Photo"
+                class="img-fluid rounded-circle" matTooltip="Update Profile" (click)="fileInput.click()" />
+            <input type="file" #fileInput hidden (change)="onPhotoSelected($event)" accept="image/*">
+
             <br>
             <hr class="w-75">
-            <button mat-icon-button class="mx-auto" matTooltip="Save profile" (click)="updateProfilePhoto()" [disabled]="userForm.invalid"><mat-icon>check_circle</mat-icon></button>
+            <button mat-icon-button class="mx-auto" matTooltip="Save profile" (click)="updateProfilePhoto()"
+                [disabled]="userForm.invalid"><mat-icon>check_circle</mat-icon></button>
         </div>
 
         <div class="col-sm-4 content-text" style="margin-left: 5%;">
             <div class="row">Name: {{ userService.user.name }}</div>
             <div class="row">Email: {{ userService.user.email}} </div>
             <div class="row">Contact: {{ userService.user.phoneNumber }} </div>
+            <div class="row"> Id Number: {{ userService.user.idNumber }} </div>
+            <div class="row"> Address: {{ userService.user.address }} </div>
+            
             <hr class="w-75">
         </div>
+
         <div class="col-sm-4 content-text">
             <div class="row mx-auto">Id Number: {{ userService.user.idNumber }} </div>
             <div class="row mx-auto">Address: {{userService.user.address}} </div>
             <div class="row mx-auto">Role: {{ userService.user.role}} </div>
+            <div class="row">Role: {{ userService.user.role}} </div>
+            <div class="row">Department: {{ userService.user.department}} </div>
             <hr class="w-75">
         </div>
+        
     </div>
 </div>
-<div class="row mt-2 w-100">
+<div class="row mt-2 w-100" *ngIf="userService.Role !== 'Admin'">
     <div class="col-sm-6">
         <div class="card">
             <div class="card-title text-center">
-                <h6 class="card-title rounded-top bg-secondary">Academic Information</h6>
+                <h6 class="card-title rounded-top bg-secondary">Upload Documents</h6>
             </div>
-            <div class="card-body mx-2" *ngIf="userService.user">
-                <div class="row">Education Level: {{userService.user.educationLevel}} </div>
-                <div class="row">University Name: {{userService.user.universityName}} </div>
-                <div class="row">Course: {{ userService.user.courseName }} </div>
-                <div class="row">Qualification: {{ userService.user.courseClass }} </div>
-                <div class="row">Graduation Year: {{ userService.user.graduationYear }} </div>
+            <div class="card-body mx-2" >
+
+                <div class="row mx-auto" *ngFor="let requirement of requirement"> {{ requirement.field }} :
+                    <button mat-icon-button matTooltip="Upload {{ requirement.field }}"
+                        (click)="addRequirement(requirement.field)">
+                        <mat-icon>add_circle</mat-icon></button>
+                </div>
+
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <!-- <div class="col-sm-6">
         <div class="card">
             <div class="card-title">
                 <h6 class="card-title text-center rounded-top bg-secondary">Work & Experience</h6>
@@ -56,5 +68,5 @@
                 <div class="row">Role: {{ userService.user.role }} </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
