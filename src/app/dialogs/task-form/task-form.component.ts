@@ -133,7 +133,6 @@ export class TaskFormComponent implements OnInit {
       status: formData.status,
     };
 
-    console.log(taskData);
     this.userService.addTasks(taskData).subscribe(
       (response: any) => {
         this.dialogRef.close();
@@ -142,7 +141,6 @@ export class TaskFormComponent implements OnInit {
         this.snackbar.success('Task added successfully.', 'X');
       },
       (error) => {
-        console.log(error);
         this.snackbar.danger("The system is busty, kindly try again later.", "X")
         this.ngxService.stop();
         if (error.error?.error) {
@@ -165,7 +163,6 @@ export class TaskFormComponent implements OnInit {
       assignedTo: formData.assignedTo,
       status: formData.status,
     };
-    console.log(taskId, updateData);
     this.userService.updateTask(taskId, updateData).subscribe(
       (response: any) => {
         this.dialogRef.close();

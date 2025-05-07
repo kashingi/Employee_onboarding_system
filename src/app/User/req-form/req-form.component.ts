@@ -77,7 +77,6 @@ export class ReqFormComponent implements OnInit{
     
     let role = this.reqService.Role;
     let response;
-    console.log("Data : ", payload, userId)
     // switch (role) {
     //   case 'Admin':
     //     response = this.reqService.addAdminRequirements(payload);

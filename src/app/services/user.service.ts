@@ -59,6 +59,8 @@ export class UserService {
 
     return this.httpClient.delete<any>(deleteUrl)
   }
+
+  //get roles from the database
   public getRoles() {
     const rolesUrl = `${this.baseUrl}roles`
     return this.httpClient.get<any[]>(rolesUrl);

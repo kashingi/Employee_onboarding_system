@@ -64,7 +64,6 @@ export class AccountComponent implements OnInit {
 
 
   handleEditAction(values: any) {
-    console.log("User Values : ", values);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       data: values,
@@ -119,14 +118,12 @@ export class AccountComponent implements OnInit {
     this.userService.updatePhoto(this.userService.user.id, userProfile).subscribe(
       (resp: any) => {
         this.ngxService.stop();
-        console.log(resp);
         this.snackbar.success("Profile updated successfully.", "X");
         this.userForm.reset();
         this.userService.currentUser();
       },
       (error: any) => {
         this.ngxService.stop();
-        console.log(error);
         this.snackbar.danger("The ystem is busy, kindly try again later.", "X");
       }
     );
@@ -156,7 +153,6 @@ export class AccountComponent implements OnInit {
       next: (resp: any) => {
         this.ngxService.stop();
         this.requirement = resp;
-        console.log("Requirement : ", resp);
       },
       error: (error: any) => {
         console.error(error);

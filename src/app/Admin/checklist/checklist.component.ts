@@ -70,11 +70,10 @@ export class ChecklistComponent implements OnInit {
     this.reqService.getAdminRequirements().subscribe(
       {
         next: (resp: any) => {
-          console.log("Admin requirements : ", resp);
           this.adminRequirements = resp;
         },
         error: (error: any) => {
-          console.log(error)
+          //console.log(error)
         }
       }
     );
@@ -85,7 +84,7 @@ export class ChecklistComponent implements OnInit {
     this.reqService.getDeveloperRequirements().subscribe(
       {
         next: (resp: any) => {
-          console.log("Dev requirements : ", resp);
+          //console.log("Dev requirements : ", resp);
           this.devRequirements = resp;
         },
         error: (error: any) => {
@@ -100,7 +99,7 @@ export class ChecklistComponent implements OnInit {
     this.reqService.getDesignerRequirements().subscribe(
       {
         next: (resp: any) => {
-          console.log("Designer requirements : ", resp);
+          //console.log("Designer requirements : ", resp);
           this.designerRequirements = resp;
         },
         error: (error: any) => {
@@ -115,7 +114,7 @@ export class ChecklistComponent implements OnInit {
     this.reqService.getHRRequirements().subscribe(
       {
         next: (resp: any) => {
-          console.log("HR requirements : ", resp);
+          //console.log("HR requirements : ", resp);
           this.hrRequirements = resp;
         },
         error: (error: any) => {
@@ -193,7 +192,6 @@ export class ChecklistComponent implements OnInit {
 
   //HAndle delete user action
   handleDeleteAction(type: 'Admin' | 'Developer' | 'Designer' | 'HR', requirement: any) {
-    console.log("Id is : ", requirement.id)
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       message: ' delete ' + requirement.field,
@@ -211,7 +209,6 @@ export class ChecklistComponent implements OnInit {
 
   //Implement Delete user
   deleteRequirement(type: string, id: string) {
-    console.log("Delete Id is : ", id);
     let response;
     switch (type) {
       case 'Admin':
@@ -256,7 +253,6 @@ export class ChecklistComponent implements OnInit {
         },
         error: (error: any)=>{
           this.ngxService.stop();
-        console.log(error);
         if (error.error?.Message) {
           this.responseMessage = error.error?.Message;
         } else {

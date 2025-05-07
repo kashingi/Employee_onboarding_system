@@ -266,7 +266,7 @@ export class UserFormComponent implements OnInit {
   getUserRoles() {
     this.userService.getRoles().subscribe(
       (resp: any) => {
-        console.log(resp);
+        //console.log(resp);
         this.roles = resp;
       },
       (error: any) => {
@@ -351,7 +351,7 @@ export class UserFormComponent implements OnInit {
     }
     data = { ...data, privileges };
 
-    console.log(data);
+    //console.log(data);
     this.userService.addUser(data).subscribe(
       (response: any) => {
         this.dialogRef.close();
@@ -438,7 +438,7 @@ export class UserFormComponent implements OnInit {
       ];
     }
     userData = { ...userData, privileges };
-    console.log(userData);
+    //console.log(userData);
     this.userService.updateUser(userId, userData).subscribe(
       (response: any) => {
         this.dialogRef.close();

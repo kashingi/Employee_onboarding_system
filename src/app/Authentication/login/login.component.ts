@@ -63,10 +63,8 @@ export class LoginComponent implements OnInit {
     let userEmail = formData.email;
     this.loginService.getLoggedInUser(userEmail).subscribe(
       (resp: any) => {
-        console.log("The user is : ", resp[0]);
         this.userRole = resp[0].role;
         localStorage.setItem('userRole', this.userRole);
-        console.log(this.userRole)
         if (this.userRole === 'Admin') {
           this.router.navigate(['admin/home/dashboard']);
           this.ngxService.stop();
@@ -81,7 +79,6 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         this.ngxService.stop();
-        console.log(error);
         this.snackbar.danger("An error occured. Kindly try again later.", "X");
       }
     );
